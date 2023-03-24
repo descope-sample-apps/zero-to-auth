@@ -1,6 +1,15 @@
 .dashboard_wrapper {
+  height: 89vh;
   .ant-select-single.ant-select-lg {
     width: 100%;
+    margin-top: 27px;
+
+    @media screen and (max-width: 600px) {
+      margin-top: 10px;
+    }
+  }
+  .ant-select .ant-select-selection-placeholder {
+    color: rgb(53 64 106 / 68%);
   }
 }
 .carddata-space {
@@ -129,7 +138,24 @@
 }
 .third-row {
   width: 100%;
-  margin-top: 14px;
+  margin-top: 62px;
+
+  @media screen and (max-width: 600px) {
+    margin-top: 40px;
+  }
+
+  .col-one {
+    border-radius: 23px;
+    margin: auto;
+    .ant-card-bordered {
+      @media screen and (max-width: 600px) {
+        overflow-x: scroll;
+      }
+      // @media screen and (min-width: 600px) and (max-width: 1200px) {
+      //   overflow-x: scroll;
+      // }
+    }
+  }
 
   .ant-space-item {
     width: 100%;
@@ -227,7 +253,8 @@
 
 .forth-row {
   width: 100%;
-  margin-top: 14px;
+  // margin-top: 14px;
+  margin-bottom: 16px;
 
   .ant-space-item {
     width: 100%;
@@ -244,6 +271,8 @@
     //Product Revenu
     .col-one {
       border-radius: 23px;
+      margin: auto;
+      // margin-top: 48px;
       .ant-card-bordered {
         @media screen and (max-width: 600px) {
           overflow-x: scroll;
@@ -259,7 +288,13 @@
       justify-content: space-between;
       align-items: center;
     }
-
+    .table-revenue {
+      .ant-table {
+        @media screen and (max-width: 600px) {
+          overflow-x: scroll;
+        }
+      }
+    }
     //Product Revenu end
 
     //Daily Traffic container start
@@ -292,6 +327,7 @@
       display: flex;
       justify-content: space-between;
       gap: 16px;
+      margin: auto;
 
       @media screen and (max-width: 600px) {
         flex-direction: column;
@@ -309,10 +345,10 @@
 
         .chart-detail {
           display: flex;
-          gap: 4px;
-          justify-content: space-between;
+          gap: 31px;
+          justify-content: center;
           align-items: center;
-          height: 234px;
+          height: 55px;
 
           .abc {
             display: flex;
@@ -382,6 +418,11 @@
   .priority-container {
     display: flex;
     justify-content: space-between;
+    .ant-table {
+      @media screen and (max-width: 600px) {
+        overflow-x: scroll;
+      }
+    }
   }
   //Task
   .task-container {

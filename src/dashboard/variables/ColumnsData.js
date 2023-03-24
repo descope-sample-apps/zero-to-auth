@@ -36,19 +36,19 @@ export const columnsDataComplex = [
     key: "status",
     render: (status) =>
       status === "Signed" ? (
-        <>
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <CheckCircleFilled className="check-circle" />
-          {status}
-        </>
+          <span> {status}</span>
+        </div>
       ) : status === "At Risk" ? (
-        <>
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <CloseCircleFilled className="close-circle" />
-          {status}
-        </>
+          <span> {status}</span>
+        </div>
       ) : (
-        <>
-          <InfoCircleFilled className="info-circle" /> {status}
-        </>
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          <InfoCircleFilled className="info-circle" /> <span> {status}</span>
+        </div>
       ),
   },
   {

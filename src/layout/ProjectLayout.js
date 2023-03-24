@@ -3,7 +3,7 @@ import NavBar from "../components/header/NavBar";
 import Sidebar from "../components/sidebar/Sidebar";
 import { darkTheme, lightTheme } from "../theme/Theme";
 import "./projectLayout.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SignIn from "../auth/signIn/SignIn";
 
@@ -23,6 +23,13 @@ const ProjectLayout = ({ children }) => {
     position: "fixed",
     zIndex: "1",
   };
+  useEffect(() => {
+    if (localStorage.getItem('loggedIn') == null) {
+      navigate('/auth/sign-in')
+    } else {
+      navigate('/admin')
+    }
+  }, [])
   return (
     <ConfigProvider
       theme={{

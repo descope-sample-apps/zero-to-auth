@@ -8,8 +8,9 @@ import {
   columnsDataComplex,
 } from "../dashboard/variables/ColumnsData";
 import PriorityDeals from "./component/PriorityDeals";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [priorityData, setPriorityData] = useState();
@@ -17,7 +18,15 @@ const Dashboard = () => {
   const [barData, setBarData] = useState();
   const [pieData, setPieData] = useState();
   const [selectedOption, setSelectedOption] = useState();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (localStorage.getItem('loggedIn') == null) {
+      navigate('/auth/sign-in')
+    } else {
+      navigate('/admin')
+    }
+  }, [])
   const getAPIData = async (url) => {
     try {
       const response = await axios.get("http://localhost:8080/" + url);
@@ -26,7 +35,7 @@ const Dashboard = () => {
         setPriorityData(data);
       }
       if (url === "bar_chart") {
-        console.log('in the if of bar data')
+        console.log("in the if of bar data");
         setBarData(data);
       }
       if (url === "product_data") {
@@ -72,43 +81,36 @@ const Dashboard = () => {
       />
       <Space size="large" className="third-row">
         <Row gutter={[14, 14]}>
-          {
-            selectedOption === 'priority_data' &&
-            <Col sm={24} md={24} lg={12} className="col-one">
-
+          {selectedOption === "priority_data" && (
+            <Col sm={24} md={19} lg={15} className="col-one">
               <PriorityDeals
                 columnsData={columnsDataComplex}
                 tableData={priorityData}
               />
-
             </Col>
-          }
-          {
-            selectedOption === 'bar_chart' &&
-            <Col xs={24} sm={12}>
+          )}
+          {selectedOption === "bar_chart" && (
+            <Col xs={24} sm={12} md={15} className="col-one">
               <WeeklyRevenu barData={barData} />
             </Col>
-          }
+          )}
         </Row>
       </Space>
       <Space size="middle" className="forth-row">
         <Row className="forth-row-container" gutter={[14, 14]}>
-          {
-            selectedOption === 'product_data' &&
-            <Col sm={24} md={24} lg={12} className="col-one">
+          {selectedOption === "product_data" && (
+            <Col sm={24} md={19} lg={15} className="col-one">
               <CheckTable
                 columnsDataCheck={columnsDataCheck}
                 tableDataCheck={revenueProductData}
               />
             </Col>
-          }
-          {
-            selectedOption === 'pi_chart' &&
-            <Col sm={24} md={24} lg={12} className="space-chart">
+          )}
+          {selectedOption === "pi_chart" && (
+            <Col sm={24} md={19} lg={15} className="space-chart">
               <PieCard className="container" pieData={pieData} />
             </Col>
-          }
-
+          )}
         </Row>
       </Space>
     </div>

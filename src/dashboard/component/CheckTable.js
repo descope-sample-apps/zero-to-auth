@@ -30,7 +30,8 @@ const CheckTable = (props) => {
       </div>
 
       <Table
-        rowKey={(record) => record.uid}
+        className="table-revenue"
+        rowKey="uid"
         rowSelection={{
           type: selectionType,
           ...rowSelection,

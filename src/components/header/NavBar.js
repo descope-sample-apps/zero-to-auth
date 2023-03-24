@@ -20,7 +20,7 @@ import {
 } from "@ant-design/icons";
 import { GiHamburgerMenu } from "react-icons/gi";
 import "./navbar.scss";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InfoPopover from "../popupScreens/InfoPopover";
 import NotificationPopover from "../popupScreens/NotificationPopover";
 
@@ -28,7 +28,6 @@ const NavBar = () => {
   const [open, setOpen] = useState(false);
   const { useToken } = theme;
   const { token } = useToken();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const showDrawer = () => {
@@ -38,9 +37,8 @@ const NavBar = () => {
     setOpen(false);
   };
   const logoutUser = () => {
-    console.log('logout user')
-    localStorage.removeItem('loggedIn');
     navigate("/auth/sign-in");
+    localStorage.clear();
   }
   const content = (
     <div>
@@ -48,14 +46,12 @@ const NavBar = () => {
         👏 Hey, Profile Name
       </Typography.Title>
       <Divider />
-      <Link>
         <p
-          style={{ color: "red" }}
+          style={{ color: "red", cursor: 'pointer' }}
           onClick={logoutUser}
         >
           Log out
         </p>
-      </Link>
     </div>
   );
 
@@ -71,16 +67,14 @@ const NavBar = () => {
                 <Breadcrumb style={{ color: token.colorTextBase }}>
                   <Breadcrumb.Item>Pages</Breadcrumb.Item>
                   <Breadcrumb.Item>
-                    {location.state == null
-                      ? "Your Rev Dashboard"
-                      : location.state}
+                      Your Rev Dashboard
                   </Breadcrumb.Item>
                 </Breadcrumb>
               </Link>
             </div>
             <div>
               <Typography className="menu-text">
-                {location.state == null ? "Your Rev Dashboard" : location.state}
+                Your Rev Dashboard
               </Typography>
             </div>
           </Col>
