@@ -1,7 +1,5 @@
 import Container from "./containers";
 import React from "react";
-import { AuthProvider } from "@descope/react-sdk";
-import { useSearchParams } from "react-router-dom";
 
 // const AppRoot = () => {
 // const [searchParams] = useSearchParams();
