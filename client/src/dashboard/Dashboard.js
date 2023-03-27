@@ -31,18 +31,22 @@ const Dashboard = () => {
     try {
       const response = await axios.get("http://localhost:8080/" + url);
       const data = response.data;
-      if (url === "priority_data") {
-        setPriorityData(data);
-      }
-      if (url === "bar_chart") {
-        console.log("in the if of bar data");
-        setBarData(data);
-      }
-      if (url === "product_data") {
-        setRevenueProductData(data);
-      }
-      if (url === "pi_chart") {
-        setPieData(data);
+      switch (url) {
+        case "priority_data":
+          setPriorityData(data);
+          break;
+        case "bar_chart":
+          setBarData(data);
+          break;
+        case "product_data":
+          setRevenueProductData(data);
+          break;
+        case "pi_chart":
+          setPieData(data);
+          break;
+
+        default:
+          break;
       }
     } catch (err) {
       console.log(err);
