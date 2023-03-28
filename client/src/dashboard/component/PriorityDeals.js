@@ -11,7 +11,7 @@ const PriorityDeals = (props) => {
         </Typography>
       </div>
       <Table
-        rowKey="uid"
+        rowKey={(record) => record?.key}
         columns={columnsData}
         dataSource={tableData}
         pagination={false}

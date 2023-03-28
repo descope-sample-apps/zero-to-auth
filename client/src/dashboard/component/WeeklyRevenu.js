@@ -3,7 +3,6 @@ import { SignalFilled } from "@ant-design/icons";
 import BarChart from "../../components/charts/BarChart";
 
 const WeeklyRevenu = ({ barData }) => {
-  console.log("barData => ", barData);
   return (
     <Card className="total-spent-container">
       <div className="btn-container">

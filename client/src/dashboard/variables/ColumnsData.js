@@ -9,19 +9,23 @@ export const columnsDataCheck = [
   {
     title: "NAME",
     dataIndex: "name",
+    key: "name",
   },
   {
     title: "PROGRESS",
     dataIndex: "progress",
     render: (progress) => <Progress percent={progress} status="active" />,
+    key: "progress",
   },
   {
     title: "CUSTOMERS",
     dataIndex: "quantity",
+    key: "quantity",
   },
   {
     title: "MOST RECENT DEAL",
     dataIndex: "date",
+    key: "date",
   },
 ];
 export const columnsDataComplex = [

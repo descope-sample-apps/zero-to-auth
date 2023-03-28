@@ -8,7 +8,6 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
-    console.log("insidde the submithandler");
     navigate("/admin");
     localStorage.setItem("loggedIn", true);
   };

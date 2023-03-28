@@ -1,11 +1,9 @@
-const express = require("express");
-const dotenv = require("dotenv").config();
-const productData = require("./data/productData.json");
-const priorityData = require("./data/priorityData.json");
-const barchart = require("./data/barchart.json");
-const piechart = require("./data/piechart.json");
-
-var cors = require("cors");
+import express from "express";
+import productData from "./data/productData.json" assert { type: "json" };
+import priorityData from "./data/priorityData.json" assert { type: "json" };
+import barchart from "./data/barchart.json" assert { type: "json" };
+import piechart from "./data/piechart.json" assert { type: "json" };
+import cors from "cors";
 
 const app = express();
 app.use(cors());

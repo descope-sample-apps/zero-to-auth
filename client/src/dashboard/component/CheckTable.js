@@ -1,26 +1,8 @@
-import { Card, Table, theme, Typography } from "antd";
-import { useState } from "react";
+import { Card, Table, Typography } from "antd";
 
 const CheckTable = (props) => {
   const { columnsDataCheck, tableDataCheck } = props;
-  const [selectionType] = useState("checkbox");
 
-  const { useToken } = theme;
-  const { token } = useToken();
-
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
-    },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === "Disabled User",
-      name: record.name,
-    }),
-  };
   return (
     <Card>
       <div className="revenue-container">
@@ -31,16 +13,12 @@ const CheckTable = (props) => {
 
       <Table
         className="table-revenue"
-        rowKey="uid"
-        rowSelection={{
-          type: selectionType,
-          ...rowSelection,
-        }}
+        rowKey={(record) => record?.key}
         columns={columnsDataCheck}
         dataSource={tableDataCheck}
         pagination={false}
         size="large"
-        style={{ background: token.colorBgContainer }}
+        loading={true}
       ></Table>
     </Card>
   );

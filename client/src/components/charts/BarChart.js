@@ -2,7 +2,6 @@ import { useState } from "react";
 import Chart from "react-apexcharts";
 
 const BarChart = ({ barData = [] }) => {
-  console.log("in the bar chart", barData);
   const [state] = useState({
     barData1: [
       {
@@ -109,7 +108,7 @@ const BarChart = ({ barData = [] }) => {
       },
     },
   });
-  console.log("state ===> ", state);
+
   return (
     <Chart
       options={state.chartOptions}

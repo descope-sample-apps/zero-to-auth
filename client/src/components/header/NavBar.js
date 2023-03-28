@@ -57,10 +57,14 @@ const NavBar = () => {
           <Col span={8} className="header-col">
             <div>
               <Link to="admin">
-                <Breadcrumb style={{ color: token.colorTextBase }}>
-                  <Breadcrumb.Item>Pages</Breadcrumb.Item>
-                  <Breadcrumb.Item>Your Rev Dashboard</Breadcrumb.Item>
-                </Breadcrumb>
+                <Breadcrumb
+                  items={[
+                    {
+                      title: "Pages",
+                    },
+                    { title: "Your Rev Dashboard" },
+                  ]}
+                />
               </Link>
             </div>
             <div>

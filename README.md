@@ -12,11 +12,7 @@ After the first-time configuration, you can
 
 ### Run client only
 
-1. Install dependencies in both Client and Server directories-
-   `cd client`
-   `npm i`
-   `cd server`
-   `npm i`
+1. Install dependencies (root level)- `npm install`
 2. Start the zero-to-auth (root level) - `npm run dev`
 
 The client is now running on `http://localhost:3000`

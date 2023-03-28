@@ -4,7 +4,7 @@ import "./popover.scss";
 import { useState } from "react";
 
 const NotificationPopover = () => {
-  const [open, setOpen] = useState(false);
+  const [setOpen] = useState(false);
   const hide = () => {
     setOpen(false);
   };

@@ -29,7 +29,7 @@ const ProjectLayout = ({ children }) => {
     } else {
       navigate("/admin");
     }
-  }, []);
+  }, [navigate]);
   return (
     <ConfigProvider
       theme={{
