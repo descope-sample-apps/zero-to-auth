@@ -18,7 +18,6 @@ const CheckTable = (props) => {
         dataSource={tableDataCheck}
         pagination={false}
         size="large"
-        loading={true}
       ></Table>
     </Card>
   );
