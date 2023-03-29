@@ -28,7 +28,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("loggedIn") == null) {
+    if (!localStorage.getItem("loggedIn")) {
       navigate("/auth/sign-in");
     } else {
       navigate("/admin");

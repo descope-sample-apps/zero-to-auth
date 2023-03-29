@@ -1,5 +1,5 @@
 .header-section {
-  width: 75%;
+  width: 95%;
   position: fixed;
   border-color: transparent;
   background: rgba(244, 247, 254, 0.2);
@@ -49,12 +49,11 @@
   }
 
   .search-section {
-    // background: white;
     padding: 10px;
     border-radius: 30px;
     box-shadow: 14px 17px 40px 4px rgb(112 144 176 / 18%);
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 11px;
 
