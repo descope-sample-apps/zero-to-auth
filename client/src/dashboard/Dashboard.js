@@ -8,7 +8,7 @@ import {
   columnsDataComplex,
 } from "../dashboard/variables/ColumnsData";
 import PriorityDeals from "./component/PriorityDeals";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -20,11 +20,14 @@ const Dashboard = () => {
   const [selectedOption, setSelectedOption] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
-  const openNotificationWithIcon = (type, message) => {
-    api[type]({
-      message: message,
-    });
-  };
+  const openNotificationWithIcon = useCallback(
+    (type, message) => {
+      api[type]({
+        message: message,
+      });
+    },
+    [api]
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,38 +37,42 @@ const Dashboard = () => {
       navigate("/admin");
     }
   }, [navigate]);
-  const getAPIData = async (url) => {
-    try {
-      setIsLoading(true);
-      const response = await axios.get("http://localhost:8080/" + url);
-      setIsLoading(false);
-      if (response.status === 200) {
-        const data = response.data;
-        switch (url) {
-          case "priority_data":
-            setPriorityData(data);
-            break;
-          case "bar_chart":
-            setBarData(data);
-            break;
-          case "product_data":
-            setRevenueProductData(data);
-            break;
-          case "pi_chart":
-            setPieData(data);
-            break;
-          default:
-            break;
+  const getAPIData = useCallback(
+    async (url) => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get("http://localhost:8080/" + url);
+        setIsLoading(false);
+        if (response.status === 200) {
+          const data = response.data;
+          switch (url) {
+            case "priority_data":
+              setPriorityData(data);
+              break;
+            case "bar_chart":
+              setBarData(data);
+              break;
+            case "product_data":
+              setRevenueProductData(data);
+              break;
+            case "pi_chart":
+              setPieData(data);
+              break;
+            default:
+              break;
+          }
+        } else {
+          openNotificationWithIcon("error", "API Failed: Something went wrong");
+          setIsLoading(false);
         }
-      } else {
+      } catch (err) {
         openNotificationWithIcon("error", "API Failed: Something went wrong");
         setIsLoading(false);
       }
-    } catch (err) {
-      openNotificationWithIcon("error", "API Failed: Something went wrong");
-      setIsLoading(false);
-    }
-  };
+    },
+    [openNotificationWithIcon]
+  );
+
   const onChange = (e) => {
     getAPIData(e);
     setSelectedOption(e);
