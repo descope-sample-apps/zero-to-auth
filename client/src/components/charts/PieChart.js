@@ -1,7 +1,8 @@
+import { Spin } from "antd";
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const PieChart = ({ pieData = [] }) => {
+const PieChart = ({ pieData = [], isLoading }) => {
   const [state] = useState({
     chartOptions: {
       labels: ["US", "Canada", "Other Markets"],
@@ -44,13 +45,19 @@ const PieChart = ({ pieData = [] }) => {
   });
 
   return (
-    <ReactApexChart
-      options={state.chartOptions}
-      series={pieData}
-      type="pie"
-      width="100%"
-      height="100%"
-    />
+    <>
+      {isLoading ? (
+        <Spin className="loader" />
+      ) : (
+        <ReactApexChart
+          options={state.chartOptions}
+          series={pieData}
+          type="pie"
+          width="100%"
+          height="100%"
+        />
+      )}
+    </>
   );
 };
 

@@ -147,6 +147,13 @@
   .col-one {
     border-radius: 23px;
     margin: auto;
+    .ant-spin .ant-spin-dot {
+      left: 16em;
+      top: 6em;
+      @media screen and (max-width: 600px) {
+        left: 0;
+      }
+    }
     .ant-card-bordered {
       @media screen and (max-width: 600px) {
         overflow-x: scroll;
@@ -328,6 +335,13 @@
       justify-content: space-between;
       gap: 16px;
       margin: auto;
+      .ant-spin .ant-spin-dot {
+        left: 16em;
+        top: 6em;
+        @media screen and (max-width: 600px) {
+          left: 0;
+        }
+      }
 
       @media screen and (max-width: 600px) {
         flex-direction: column;
@@ -415,6 +429,15 @@
       }
     }
   }
+  .spin {
+    .ant-spin .ant-spin-dot {
+      left: 15em;
+      top: 9em;
+      @media screen and (max-width: 600px) {
+        left: 0;
+      }
+    }
+  }
   .priority-container {
     display: flex;
     justify-content: space-between;
@@ -491,4 +514,7 @@
 }
 .ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item {
   color: #8f9bba;
+}
+.ant-notification {
+  z-index: 9999;
 }

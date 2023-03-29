@@ -2,7 +2,7 @@ import { Card, Typography } from "antd";
 import React from "react";
 import PieChart from "../../components/charts/PieChart";
 
-const PieCard = ({ pieData = [] }) => {
+const PieCard = ({ pieData = [], isLoading }) => {
   return (
     <Card className="pi-wrapper">
       <div className="pie-container">
@@ -11,7 +11,7 @@ const PieCard = ({ pieData = [] }) => {
         </Typography>
       </div>
       <div className="pie-chart">
-        <PieChart pieData={pieData} />
+        <PieChart pieData={pieData} isLoading={isLoading} />
       </div>
       <div className="chart-detail">
         <div className="abc">

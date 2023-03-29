@@ -1,7 +1,8 @@
+import { Spin } from "antd";
 import { useState } from "react";
 import Chart from "react-apexcharts";
 
-const BarChart = ({ barData = [] }) => {
+const BarChart = ({ barData = [], isLoading }) => {
   const [state] = useState({
     barData1: [
       {
@@ -110,13 +111,19 @@ const BarChart = ({ barData = [] }) => {
   });
 
   return (
-    <Chart
-      options={state.chartOptions}
-      series={barData}
-      type="bar"
-      width="100%"
-      height="100%"
-    />
+    <>
+      {isLoading ? (
+        <Spin className="loader" />
+      ) : (
+        <Chart
+          options={state.chartOptions}
+          series={barData}
+          type="bar"
+          width="100%"
+          height="100%"
+        />
+      )}
+    </>
   );
 };
 

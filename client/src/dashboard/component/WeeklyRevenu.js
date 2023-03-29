@@ -2,7 +2,7 @@ import { Button, Card, Typography } from "antd";
 import { SignalFilled } from "@ant-design/icons";
 import BarChart from "../../components/charts/BarChart";
 
-const WeeklyRevenu = ({ barData }) => {
+const WeeklyRevenu = ({ barData, isLoading }) => {
   return (
     <Card className="total-spent-container">
       <div className="btn-container">
@@ -14,7 +14,7 @@ const WeeklyRevenu = ({ barData }) => {
         </Button>
       </div>
       <div className="bar-container">
-        <BarChart barData={barData} />
+        <BarChart barData={barData} isLoading={isLoading} />
       </div>
     </Card>
   );

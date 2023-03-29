@@ -1,4 +1,4 @@
-import { Col, Row, Select, Space } from "antd";
+import { Col, Row, Select, Space, notification } from "antd";
 import "./dashboard.scss";
 import WeeklyRevenu from "./component/WeeklyRevenu";
 import PieCard from "./component/PieCard";
@@ -18,6 +18,13 @@ const Dashboard = () => {
   const [barData, setBarData] = useState();
   const [pieData, setPieData] = useState();
   const [selectedOption, setSelectedOption] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
+  const openNotificationWithIcon = (type, message) => {
+    api[type]({
+      message: message,
+    });
+  };
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,22 +36,34 @@ const Dashboard = () => {
   }, [navigate]);
   const getAPIData = async (url) => {
     try {
+      setIsLoading(true);
       const response = await axios.get("http://localhost:8080/" + url);
-      const data = response.data;
-      if (url === "priority_data") {
-        setPriorityData(data);
-      }
-      if (url === "bar_chart") {
-        setBarData(data);
-      }
-      if (url === "product_data") {
-        setRevenueProductData(data);
-      }
-      if (url === "pi_chart") {
-        setPieData(data);
+      setIsLoading(false);
+      if (response.status === 200) {
+        const data = response.data;
+        switch (url) {
+          case "priority_data":
+            setPriorityData(data);
+            break;
+          case "bar_chart":
+            setBarData(data);
+            break;
+          case "product_data":
+            setRevenueProductData(data);
+            break;
+          case "pi_chart":
+            setPieData(data);
+            break;
+          default:
+            break;
+        }
+      } else {
+        openNotificationWithIcon("error", "API Failed: Something went wrong");
+        setIsLoading(false);
       }
     } catch (err) {
-      return err;
+      openNotificationWithIcon("error", "API Failed: Something went wrong");
+      setIsLoading(false);
     }
   };
   const onChange = (e) => {
@@ -54,6 +73,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard_wrapper">
+      {contextHolder}
       <Select
         placeholder="Select ..."
         optionFilterProp="children"
@@ -85,12 +105,13 @@ const Dashboard = () => {
               <PriorityDeals
                 columnsData={columnsDataComplex}
                 tableData={priorityData}
+                isLoading={isLoading}
               />
             </Col>
           )}
           {selectedOption === "bar_chart" && (
-            <Col xs={24} sm={12} md={15} className="col-one">
-              <WeeklyRevenu barData={barData} />
+            <Col xs={24} sm={12} md={15} className="col-one spin">
+              <WeeklyRevenu barData={barData} isLoading={isLoading} />
             </Col>
           )}
         </Row>
@@ -102,12 +123,17 @@ const Dashboard = () => {
               <CheckTable
                 columnsDataCheck={columnsDataCheck}
                 tableDataCheck={revenueProductData}
+                isLoading={isLoading}
               />
             </Col>
           )}
           {selectedOption === "pi_chart" && (
             <Col sm={24} md={19} lg={15} className="space-chart">
-              <PieCard className="container" pieData={pieData} />
+              <PieCard
+                className="container"
+                pieData={pieData}
+                isLoading={isLoading}
+              />
             </Col>
           )}
         </Row>
