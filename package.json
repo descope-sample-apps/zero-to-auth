@@ -1,0 +1,36 @@
+{
+  "name": "zero-to-auth-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd client && npm start",
+    "server": "cd server && npm start",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "prepare": "husky install",
+    "postinstall": "(cd client && npm install) && (cd ../server && npm install) && (npm install )"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/descope-sample-apps/zero-to-auth-frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/descope-sample-apps/zero-to-auth-frontend/issues"
+  },
+  "homepage": "https://github.com/descope-sample-apps/zero-to-auth-frontend#readme",
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
+    "prettier": "2.8.7"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}
