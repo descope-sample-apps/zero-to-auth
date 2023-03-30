@@ -1,7 +1,8 @@
 import { Card, Table, Typography } from "antd";
+import { CONST } from "../../constants/constants";
 
 const PriorityDeals = (props) => {
-  const { columnsData, tableData, isLoading } = props;
+  const { tableData, isLoading } = props;
 
   return (
     <Card>
@@ -12,7 +13,7 @@ const PriorityDeals = (props) => {
       </div>
       <Table
         rowKey={(record) => record.key}
-        columns={columnsData}
+        columns={CONST.priorityDealsColumns}
         dataSource={tableData}
         pagination={false}
         loading={isLoading}

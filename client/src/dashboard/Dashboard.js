@@ -3,14 +3,11 @@ import "./dashboard.scss";
 import WeeklyRevenu from "./component/WeeklyRevenu";
 import PieCard from "./component/PieCard";
 import CheckTable from "./component/CheckTable";
-import {
-  columnsDataCheck,
-  columnsDataComplex,
-} from "../dashboard/variables/ColumnsData";
 import PriorityDeals from "./component/PriorityDeals";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { CONST } from "../constants/constants";
 
 const Dashboard = () => {
   const [priorityData, setPriorityData] = useState();
@@ -41,7 +38,7 @@ const Dashboard = () => {
     async (url) => {
       try {
         setIsLoading(true);
-        const response = await axios.get("http://localhost:8080/" + url);
+        const response = await axios.get(CONST.baseurl + url);
         setIsLoading(false);
         if (response.status === 200) {
           const data = response.data;
@@ -109,11 +106,7 @@ const Dashboard = () => {
         <Row gutter={[14, 14]}>
           {selectedOption === "priority_data" && (
             <Col sm={24} md={19} lg={15} className="col-one">
-              <PriorityDeals
-                columnsData={columnsDataComplex}
-                tableData={priorityData}
-                isLoading={isLoading}
-              />
+              <PriorityDeals tableData={priorityData} isLoading={isLoading} />
             </Col>
           )}
           {selectedOption === "bar_chart" && (
@@ -128,7 +121,6 @@ const Dashboard = () => {
           {selectedOption === "product_data" && (
             <Col sm={24} md={19} lg={15} className="col-one">
               <CheckTable
-                columnsDataCheck={columnsDataCheck}
                 tableDataCheck={revenueProductData}
                 isLoading={isLoading}
               />
