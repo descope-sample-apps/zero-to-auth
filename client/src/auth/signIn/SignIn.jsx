@@ -10,9 +10,9 @@ import { API_ROUTES } from "../../constants/constants";
 const SignIn = () => {
   const navigate = useNavigate();
   const [otpStarted, setOtpStarted] = useState(false);
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState('');
-  const [oauthLoading, setOAuthLoading] = useState('');
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState("");
+  const [oauthLoading, setOAuthLoading] = useState("");
   const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = useCallback(
     (type, message) => {
@@ -22,24 +22,26 @@ const SignIn = () => {
     },
     [api]
   );
-  const handleOtp = useCallback(async (form) => {
-    setLoading(true);
-    try {
-      if (!otpStarted) {
-        await axios.post(API_ROUTES.OTP_LOGIN, form);
-        setOtpStarted(true);
-        setEmail(form.email)
-      } else {
-        await axios.post(API_ROUTES.OTP_VERIFY, { email, ...form });
-        navigate("/admin");
+  const handleOtp = useCallback(
+    async (form) => {
+      setLoading(true);
+      try {
+        if (!otpStarted) {
+          await axios.post(API_ROUTES.OTP_LOGIN, form);
+          setOtpStarted(true);
+          setEmail(form.email);
+        } else {
+          await axios.post(API_ROUTES.OTP_VERIFY, { email, ...form });
+          navigate("/");
+        }
+      } catch (e) {
+        console.log(e);
+        openNotificationWithIcon("error", "Oops. Something went wrong");
       }
-    } catch (e) {
-      console.log(e)
-      openNotificationWithIcon("error", "Oops. Something went wrong");
-    }
-    setLoading(false);
-
-  }, [navigate, email, otpStarted, openNotificationWithIcon]);
+      setLoading(false);
+    },
+    [navigate, email, otpStarted, openNotificationWithIcon]
+  );
 
   const handleOAuth = useCallback(async () => {
     setOAuthLoading(true);
@@ -47,7 +49,7 @@ const SignIn = () => {
       const { data: redirectUrl } = await axios.post(API_ROUTES.OAUTH);
       window.location.assign(redirectUrl);
     } catch (e) {
-      console.log(e)
+      console.log(e);
       openNotificationWithIcon("error", "Oops. Something went wrong");
     }
     setOAuthLoading(false);
@@ -64,22 +66,23 @@ const SignIn = () => {
               className="login-form"
               onFinish={handleOtp}
             >
-              {!otpStarted ? (<>
-                <Form.Item name="email">
-                  <Input
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Email"
-                    size="large"
-                  />
-                </Form.Item>
-              </>) : <>
-                <Form.Item name="code">
-                  <Input
-                    placeholder="Code"
-                    size="large"
-                  />
-                </Form.Item>
-              </>}
+              {!otpStarted ? (
+                <>
+                  <Form.Item name="email">
+                    <Input
+                      prefix={<UserOutlined className="site-form-item-icon" />}
+                      placeholder="Email"
+                      size="large"
+                    />
+                  </Form.Item>
+                </>
+              ) : (
+                <>
+                  <Form.Item name="code">
+                    <Input placeholder="Code" size="large" />
+                  </Form.Item>
+                </>
+              )}
               <Form.Item>
                 <Button
                   type="primary"
@@ -89,12 +92,12 @@ const SignIn = () => {
                   disabled={oauthLoading}
                   loading={loading}
                 >
-                  {otpStarted ? 'Enter Code' : 'Login'}
+                  {otpStarted ? "Enter Code" : "Login"}
                 </Button>
               </Form.Item>
             </Form>
-            {
-              !otpStarted && (<>
+            {!otpStarted && (
+              <>
                 <Divider> OR </Divider>
                 <Button
                   htmlType="submit"
@@ -107,8 +110,8 @@ const SignIn = () => {
                   <GoogleOutlined />
                   Login With Google
                 </Button>
-              </>)
-            }
+              </>
+            )}
           </div>
         </Col>
         <Col

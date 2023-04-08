@@ -11,11 +11,7 @@ const Container = () => {
       <ProjectLayout>
         <Routes>
           <Route path="sign-in" element={<SignIn />} />
-          <Route path="admin" element={<Dashboard />} />
-          <Route
-            path="*"
-            element={<Navigate to="/sign-in" replace />}
-        />
+          <Route path="/" element={<Dashboard />} />
         </Routes>
       </ProjectLayout>
     </div>
