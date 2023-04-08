@@ -9,7 +9,7 @@
     "server": "cd server && npm start",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
     "prepare": "husky install",
-    "postinstall": "(cd client && npm install) && (cd ../server && npm install) && (npm install )"
+    "postinstall": "concurrently \"cd client && npm i\" \"cd server && npm i\""
   },
   "repository": {
     "type": "git",

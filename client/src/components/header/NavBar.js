@@ -20,7 +20,7 @@ const NavBar = () => {
   };
   const content = (
     <div>
-      <Typography.Title level={5}>👏 Hey, Profile Name</Typography.Title>
+      <Typography.Title level={5}>👏 Hey, Lorem Ipsum</Typography.Title>
       <Divider />
       <p style={{ color: "red", cursor: "pointer" }} onClick={logoutUser}>
         Log out
