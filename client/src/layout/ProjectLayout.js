@@ -1,32 +1,30 @@
 import { Layout, ConfigProvider, Space } from "antd";
 import NavBar from "../components/header/NavBar";
 import "./projectLayout.scss";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import SignIn from "../auth/signIn/SignIn";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const { Header, Content } = Layout;
 
 const ProjectLayout = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(true);
-  const navigate = useNavigate();
 
   const handleClick = () => {
     setIsDarkMode(!isDarkMode);
   };
-  useEffect(() => {
-    if (!localStorage.getItem("loggedIn")) {
-      navigate("/auth/sign-in");
-    } else {
-      navigate("/admin");
-    }
-  }, [navigate]);
+
+  const location = useLocation();
+
+  if (location.pathname === "/sign-in") {
+    return (
+      <>
+        {children}
+      </>
+    );
+  }
   return (
     <ConfigProvider>
-      {!localStorage.getItem("loggedIn") ? (
-        <SignIn />
-      ) : (
-        <Space
+      <Space
           direction="vertical"
           style={{
             width: "100%",
@@ -42,7 +40,6 @@ const ProjectLayout = ({ children }) => {
             </Layout>
           </Layout>
         </Space>
-      )}
     </ConfigProvider>
   );
 };

@@ -1,5 +1,5 @@
 import { Card, Table, Typography } from "antd";
-import { CONST } from "../../constants/constants";
+import { REV_PRODUCT_COLUMNS } from "../../constants/constants";
 
 const CheckTable = (props) => {
   const { tableDataCheck, isLoading } = props;
@@ -15,7 +15,7 @@ const CheckTable = (props) => {
       <Table
         className="table-revenue"
         rowKey={(record) => record.key}
-        columns={CONST.revenueProductcolumns}
+        columns={REV_PRODUCT_COLUMNS}
         dataSource={tableDataCheck}
         pagination={false}
         size="large"

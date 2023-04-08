@@ -1,6 +1,6 @@
 import { Spin } from "antd";
 import Chart from "react-apexcharts";
-import { CONST } from "../../constants/constants";
+import { BAR_CHART_OPTIONS } from "../../constants/constants";
 
 const BarChart = ({ barData = [], isLoading }) => {
   return (
@@ -9,7 +9,7 @@ const BarChart = ({ barData = [], isLoading }) => {
         <Spin className="loader" />
       ) : (
         <Chart
-          options={CONST.barChartOptions}
+          options={BAR_CHART_OPTIONS}
           series={barData}
           type="bar"
           width="100%"

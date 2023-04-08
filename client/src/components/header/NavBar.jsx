@@ -15,8 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 const NavBar = () => {
   const navigate = useNavigate();
   const logoutUser = () => {
-    navigate("/auth/sign-in");
-    localStorage.clear();
+    navigate("/sign-in");
   };
   const content = (
     <div>

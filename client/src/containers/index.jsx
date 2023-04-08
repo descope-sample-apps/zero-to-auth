@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import SignIn from "../auth/signIn/SignIn";
 import Dashboard from "../dashboard/Dashboard";
 
@@ -10,8 +10,12 @@ const Container = () => {
     <div>
       <ProjectLayout>
         <Routes>
+          <Route path="sign-in" element={<SignIn />} />
           <Route path="admin" element={<Dashboard />} />
-          <Route path="auth/sign-in" element={<SignIn />} />
+          <Route
+            path="*"
+            element={<Navigate to="/sign-in" replace />}
+        />
         </Routes>
       </ProjectLayout>
     </div>

@@ -4,10 +4,9 @@ import WeeklyRevenu from "./component/WeeklyRevenu";
 import PieCard from "./component/PieCard";
 import CheckTable from "./component/CheckTable";
 import PriorityDeals from "./component/PriorityDeals";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { CONST } from "../constants/constants";
+import { API_ROUTES } from "../constants/constants";
 
 const Dashboard = () => {
   const [priorityData, setPriorityData] = useState();
@@ -25,20 +24,12 @@ const Dashboard = () => {
     },
     [api]
   );
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!localStorage.getItem("loggedIn")) {
-      navigate("/auth/sign-in");
-    } else {
-      navigate("/admin");
-    }
-  }, [navigate]);
   const getAPIData = useCallback(
     async (url) => {
       try {
         setIsLoading(true);
-        const response = await axios.get(CONST.baseurl + url);
+        const response = await axios.get(`${API_ROUTES.BASE_URL}/${url}`);
         setIsLoading(false);
         if (response.status === 200) {
           const data = response.data;

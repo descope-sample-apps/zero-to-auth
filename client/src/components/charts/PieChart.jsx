@@ -1,7 +1,7 @@
 import { Spin } from "antd";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import { CONST } from "../../constants/constants";
+import { PIE_CHART_OPTIONS } from "../../constants/constants";
 
 const PieChart = ({ pieData = [], isLoading }) => {
   return (
@@ -10,7 +10,7 @@ const PieChart = ({ pieData = [], isLoading }) => {
         <Spin className="loader" />
       ) : (
         <ReactApexChart
-          options={CONST.piChartOptions}
+          options={PIE_CHART_OPTIONS}
           series={pieData}
           type="pie"
           width="100%"
