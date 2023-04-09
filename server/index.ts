@@ -6,6 +6,7 @@ import pieChart from "./data/pieChart.ts";
 import cors from "cors";
 import dotenv from "dotenv";
 import DescopeClient from "@descope/node-sdk";
+import { setAuthCookies } from "./authHelpers.ts";
 
 dotenv.config();
 
@@ -40,6 +41,16 @@ app.post("/otp/login", async (req: Request, res: Response) => {
   if (!authRes.ok) {
     return res.status(400).send(authRes.error);
   }
+  res.sendStatus(200);
+});
+
+app.post("/otp/verify", async (req: Request, res: Response) => {
+  const { email, code } = req.body;
+  const authRes = await clientAuth.auth.otp.verify.email(email, code);
+  if (!authRes.ok) {
+    return res.status(400).send(authRes.error);
+  }
+  setAuthCookies(res, authRes);
   res.sendStatus(200);
 });
 

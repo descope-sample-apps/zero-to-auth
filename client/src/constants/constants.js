@@ -204,4 +204,5 @@ const BASE_URL = "http://localhost:8080";
 export const API_ROUTES = {
   BASE_URL,
   OTP_LOGIN: `${BASE_URL}/otp/login`,
+  OTP_VERIFY: `${BASE_URL}/otp/verify`,
 };
