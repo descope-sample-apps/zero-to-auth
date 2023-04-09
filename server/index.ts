@@ -32,6 +32,17 @@ app.use(express.json());
 
 const port = process.env.PORT || 8080;
 
+// *** Login Methods *** //
+
+app.post("/otp/login", async (req: Request, res: Response) => {
+  const { email } = req.body;
+  const authRes = await clientAuth.auth.otp.signUpOrIn.email(email);
+  if (!authRes.ok) {
+    return res.status(400).send(authRes.error);
+  }
+  res.sendStatus(200);
+});
+
 app.get("/product_data", (_, res: Response) => {
   res.send(productData);
 });
