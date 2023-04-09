@@ -44,7 +44,7 @@ const Dashboard = () => {
             case "product_data":
               setRevenueProductData(data);
               break;
-            case "pi_chart":
+            case "pie_chart":
               setPieData(data);
               break;
             default:
@@ -90,7 +90,7 @@ const Dashboard = () => {
             label: "Revenue By Product",
           },
           {
-            value: "pi_chart",
+            value: "pie_chart",
             label: "Market Breakdown",
           },
         ]}
@@ -119,7 +119,7 @@ const Dashboard = () => {
               />
             </Col>
           )}
-          {selectedOption === "pi_chart" && (
+          {selectedOption === "pie_chart" && (
             <Col sm={24} md={19} lg={15} className="space-chart">
               <PieCard
                 className="container"

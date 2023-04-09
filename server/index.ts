@@ -1,12 +1,17 @@
 import express, { NextFunction, Request, Response } from "express";
 import productData from "./data/productData.ts";
 import priorityData from "./data/priorityData.ts";
-import barchart from "./data/barchart.ts";
-import piechart from "./data/piechart.ts";
+import barChart from "./data/barChart.ts";
+import pieChart from "./data/pieChart.ts";
 import cors from "cors";
 import dotenv from "dotenv";
 import DescopeClient from "@descope/node-sdk";
-import { parseCookies, returnCookies as setCookies } from "./authHelpers.ts";
+import {
+  parseCookies,
+  setAuthCookies,
+  setAuthCookies as setCookies,
+} from "./authHelpers.ts";
+import { RequestContext } from "./types.ts";
 
 dotenv.config();
 
@@ -15,11 +20,20 @@ if (!process.env.DESCOPE_PROJECT_ID) {
     `Please set DESCOPE_PROJECT_ID in your environment variables, falling back to author's project id.`
   );
 }
+
 const clientAuth = {
   auth: DescopeClient({
     projectId: process.env.DESCOPE_PROJECT_ID || "P2O9zUpunOAGLdVHie8He79diqHU",
   }),
 };
+
+declare global {
+  namespace Express {
+    interface Request {
+      context: RequestContext;
+    }
+  }
+}
 
 const app = express();
 app.use(
@@ -35,40 +49,37 @@ const port = process.env.PORT || 8080;
 // *** Login Methods *** //
 
 app.post("/otp/login", async (req: Request, res: Response) => {
-  const { body } = req;
-  const { email } = body;
-  const out = await clientAuth.auth.otp.signUpOrIn.email(email);
-  if (!out.ok) {
-    return res.status(400).send(out.error);
+  const { email } = req.body;
+  const authRes = await clientAuth.auth.otp.signUpOrIn.email(email);
+  if (!authRes.ok) {
+    return res.status(400).send(authRes.error);
   }
   res.sendStatus(200);
 });
 
 app.post("/otp/verify", async (req: Request, res: Response) => {
-  const { body } = req;
-  const { email, code } = body;
-  const out = await clientAuth.auth.otp.verify.email(email, code);
-  if (!out.ok) {
-    return res.status(400).send(out.error);
+  const { email, code } = req.body;
+  const authRes = await clientAuth.auth.otp.verify.email(email, code);
+  if (!authRes.ok) {
+    return res.status(400).send(authRes.error);
   }
-  setCookies(res, out);
-  res.setHeader("Content-Type", "application/json");
-  res.status(200).send(out.data);
+  setCookies(res, authRes);
+  res.sendStatus(200);
 });
 
-app.post("/oauth", async (req: Request, res: Response) => {
-  const out = await clientAuth.auth.oauth.start.google(
+app.get("/oauth", async (req: Request, res: Response) => {
+  const authRes = await clientAuth.auth.oauth.start.google(
     `http://localhost:${port}/oauth/finish`
   );
-  if (!out.ok) {
-    return res.status(400).send(out.error);
+  if (!authRes.ok) {
+    return res.status(400).send(authRes.error);
   }
-  res.send(out.data!.url);
+  res.redirect(authRes.data!.url);
 });
 
 app.get("/oauth/finish", async (req: Request, res: Response) => {
-  const code = req.query.code as string;
-  const out = await clientAuth.auth.oauth.exchange(code);
+  const { code } = req.query;
+  const out = await clientAuth.auth.oauth.exchange(code as string);
   setCookies(res, out);
   res.status(302).redirect("http://localhost:3000");
 });
@@ -80,46 +91,51 @@ export const authMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
+  const cookies = parseCookies(req);
+  let sessionToken = cookies[DescopeClient.SessionTokenCookieName];
   try {
-    const cookies = parseCookies(req);
-    const out = await clientAuth.auth.validateAndRefreshSession(
-      cookies[DescopeClient.SessionTokenCookieName],
-      cookies[DescopeClient.RefreshTokenCookieName]
-    );
-    if (out?.cookies) {
-      res.set("Set-Cookie", out.cookies);
-    }
-    next();
+    // validate session
+    await clientAuth.auth.validateSession(sessionToken);
   } catch (e) {
-    res.status(401).json({
-      error: new Error("Unauthorized"),
-    });
+    // if session is invalid, try to refresh
+    const refreshToken = cookies[DescopeClient.RefreshTokenCookieName];
+    const authRes = await clientAuth.auth.refresh(refreshToken);
+    if (!authRes.ok) {
+      res.status(401).json({
+        error: new Error("Unauthorized"),
+      });
+    }
+    setAuthCookies(res, authRes);
+    sessionToken = authRes.data!.sessionJwt;
   }
+  // Add sessionToken to request context for later use
+  req.context = { sessionToken };
+  next();
 };
 
 // Add authMiddleware to all routes bellow
 const router = express.Router();
 router.use(authMiddleware);
 
-router.get("/product_data", authMiddleware, (req: Request, res: Response) => {
+router.get("/product_data", (_, res: Response) => {
   res.send(productData);
 });
 
-router.get("/priority_data", authMiddleware, (req: Request, res: Response) => {
+router.get("/priority_data", (_, res: Response) => {
   res.send(priorityData);
 });
 
-router.get("/bar_chart", authMiddleware, (req: Request, res: Response) => {
-  res.send(barchart);
+router.get("/bar_chart", (_, res: Response) => {
+  res.send(barChart);
 });
 
-router.get("/pi_chart", authMiddleware, (req: Request, res: Response) => {
-  res.send(piechart);
+router.get("/pie_chart", (_, res: Response) => {
+  res.send(pieChart);
 });
 
-router.post("/logout", authMiddleware, async (req: Request, res: Response) => {
-  const cookies = parseCookies(req);
-  await clientAuth.auth.logout(cookies[DescopeClient.SessionTokenCookieName]);
+router.post("/logout", async (req: Request, res: Response) => {
+  const { sessionToken } = req.context;
+  await clientAuth.auth.logout(sessionToken);
 
   res.clearCookie(DescopeClient.SessionTokenCookieName);
   res.clearCookie(DescopeClient.RefreshTokenCookieName);
@@ -131,5 +147,5 @@ app.use("/", router);
 
 // *** Start Server *** //
 app.listen(port, () => {
-  console.log(`server running on ${port}`);
+  console.log(`Server is running on ${port} ...`);
 });

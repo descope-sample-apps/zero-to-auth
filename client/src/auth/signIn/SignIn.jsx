@@ -12,7 +12,6 @@ const SignIn = () => {
   const [otpStarted, setOtpStarted] = useState(false);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState("");
-  const [oauthLoading, setOAuthLoading] = useState("");
   const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = useCallback(
     (type, message) => {
@@ -50,18 +49,8 @@ const SignIn = () => {
   );
 
   const handleOAuth = useCallback(async () => {
-    setOAuthLoading(true);
-    try {
-      const { data: redirectUrl } = await axios.post(API_ROUTES.OAUTH, {
-        withCredentials: true,
-      });
-      window.location.assign(redirectUrl);
-    } catch (e) {
-      console.log(e);
-      openNotificationWithIcon("error", "Oops. Something went wrong");
-    }
-    setOAuthLoading(false);
-  }, [navigate, openNotificationWithIcon, setOAuthLoading]);
+    window.location.assign(API_ROUTES.OAUTH);
+  }, []);
   return (
     <div style={{ height: "99vh" }}>
       {contextHolder}
@@ -97,7 +86,6 @@ const SignIn = () => {
                   htmlType="submit"
                   size="large"
                   style={{ width: "100%" }}
-                  disabled={oauthLoading}
                   loading={loading}
                 >
                   {otpStarted ? "Enter Code" : "Login"}
@@ -111,7 +99,6 @@ const SignIn = () => {
                   htmlType="submit"
                   size="large"
                   style={{ width: "100%" }}
-                  loading={oauthLoading}
                   disabled={loading}
                   onClick={handleOAuth}
                 >

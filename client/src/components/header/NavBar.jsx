@@ -17,7 +17,11 @@ import { useCallback } from "react";
 const NavBar = () => {
   const navigate = useNavigate();
   const logoutUser = useCallback(async () => {
-    await axios.post(API_ROUTES.LOGOUT, null, { withCredentials: true });
+    try {
+      await axios.post(API_ROUTES.LOGOUT, null, { withCredentials: true });
+    } catch (e) {
+      console.log(e);
+    }
     navigate("/sign-in");
   }, []);
   const content = (

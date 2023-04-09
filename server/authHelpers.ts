@@ -1,5 +1,5 @@
 import DescopeClient, { SdkResponse, ResponseData } from "@descope/node-sdk";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
 /**
  * Generate a cookie string from given parameters
@@ -17,7 +17,7 @@ const generateCookie = (
     options?.cookiePath || "/"
   }; HttpOnly; SameSite=Strict`;
 
-export const returnCookies = <T extends ResponseData>(
+export const setAuthCookies = <T extends ResponseData>(
   res: Response,
   out: SdkResponse<T>
 ) => {
