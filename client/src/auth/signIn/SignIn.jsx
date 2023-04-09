@@ -27,11 +27,17 @@ const SignIn = () => {
       setLoading(true);
       try {
         if (!otpStarted) {
-          await axios.post(API_ROUTES.OTP_LOGIN, form);
+          await axios.post(API_ROUTES.OTP_LOGIN, form, {
+            withCredentials: true,
+          });
           setOtpStarted(true);
           setEmail(form.email);
         } else {
-          await axios.post(API_ROUTES.OTP_VERIFY, { email, ...form });
+          await axios.post(
+            API_ROUTES.OTP_VERIFY,
+            { email, ...form },
+            { withCredentials: true }
+          );
           navigate("/");
         }
       } catch (e) {
@@ -46,7 +52,9 @@ const SignIn = () => {
   const handleOAuth = useCallback(async () => {
     setOAuthLoading(true);
     try {
-      const { data: redirectUrl } = await axios.post(API_ROUTES.OAUTH);
+      const { data: redirectUrl } = await axios.post(API_ROUTES.OAUTH, {
+        withCredentials: true,
+      });
       window.location.assign(redirectUrl);
     } catch (e) {
       console.log(e);

@@ -5,7 +5,7 @@ import {
   InfoCircleFilled,
 } from "@ant-design/icons";
 
-export const REV_PRODUCT_COLUMNS =  [
+export const REV_PRODUCT_COLUMNS = [
   {
     title: "NAME",
     dataIndex: "name",
@@ -70,7 +70,7 @@ export const PRIORITIZED_DEALS_COLUMNS = [
 ];
 
 export const PIE_CHART_OPTIONS = {
-  labels: ["US", "Canada", "Other Markets"],
+  labels: ["Germany", "Canada", "Other Markets"],
   colors: ["#4318FF", "#6AD2FF", "#EFF4FB"],
   chart: {
     width: "50px",
@@ -106,7 +106,7 @@ export const PIE_CHART_OPTIONS = {
     enabled: true,
     theme: "dark",
   },
-}
+};
 
 export const BAR_CHART_OPTIONS = {
   chart: {
@@ -206,4 +206,5 @@ export const API_ROUTES = {
   OTP_LOGIN: `${BASE_URL}/otp/login`,
   OTP_VERIFY: `${BASE_URL}/otp/verify`,
   OAUTH: `${BASE_URL}/oauth`,
+  LOGOUT: `${BASE_URL}/logout`,
 };

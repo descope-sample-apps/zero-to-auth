@@ -17,7 +17,7 @@ const PieCard = ({ pieData = [], isLoading }) => {
         <div className="abc">
           <div className="flex-place">
             <div className="chart-series us-col" />
-            <Typography style={{ color: "#a3aed0" }}>US</Typography>
+            <Typography style={{ color: "#a3aed0" }}>Germany</Typography>
           </div>
           <Typography
             style={{ fontSize: 16, color: "#1b2559", fontWeight: 700 }}

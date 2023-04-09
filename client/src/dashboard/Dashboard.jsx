@@ -29,10 +29,11 @@ const Dashboard = () => {
     async (url) => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`${API_ROUTES.BASE_URL}/${url}`);
-        setIsLoading(false);
-        if (response.status === 200) {
-          const data = response.data;
+        const response = await axios.get(`${API_ROUTES.BASE_URL}/${url}`, {
+          withCredentials: true,
+        });
+        const { status, data } = response;
+        if (status === 200) {
           switch (url) {
             case "priority_data":
               setPriorityData(data);
@@ -49,6 +50,7 @@ const Dashboard = () => {
             default:
               break;
           }
+          setIsLoading(false);
         } else {
           openNotificationWithIcon("error", "API Failed: Something went wrong");
           setIsLoading(false);

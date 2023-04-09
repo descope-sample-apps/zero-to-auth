@@ -22,7 +22,12 @@ const clientAuth = {
 };
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 app.use(express.json());
 
 const port = process.env.PORT || 8080;
@@ -43,6 +48,9 @@ app.post("/otp/verify", async (req: Request, res: Response) => {
   const { body } = req;
   const { email, code } = body;
   const out = await clientAuth.auth.otp.verify.email(email, code);
+  if (!out.ok) {
+    return res.status(400).send(out.error);
+  }
   setCookies(res, out);
   res.setHeader("Content-Type", "application/json");
   res.status(200).send(out.data);
@@ -107,6 +115,16 @@ router.get("/bar_chart", authMiddleware, (req: Request, res: Response) => {
 
 router.get("/pi_chart", authMiddleware, (req: Request, res: Response) => {
   res.send(piechart);
+});
+
+router.post("/logout", authMiddleware, async (req: Request, res: Response) => {
+  const cookies = parseCookies(req);
+  await clientAuth.auth.logout(cookies[DescopeClient.SessionTokenCookieName]);
+
+  res.clearCookie(DescopeClient.SessionTokenCookieName);
+  res.clearCookie(DescopeClient.RefreshTokenCookieName);
+
+  res.sendStatus(200);
 });
 
 app.use("/", router);
