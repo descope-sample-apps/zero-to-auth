@@ -1,7 +1,7 @@
 {
   "name": "backend_api",
   "version": "1.0.0",
-  "description": "Zero to auth using Descope",
+  "description": "Zero To Auth using Descope",
   "main": "index.ts",
   "type": "module",
   "scripts": {
@@ -21,7 +21,6 @@
     "@types/express": "^4.17.17",
     "@types/node": "^18.15.11",
     "dotenv": "^16.0.3",
-    "ts-node": "^10.8.2",
-    "typescript": "^5.1.0-dev.20230408"
+    "ts-node": "^10.8.2"
   }
 }
