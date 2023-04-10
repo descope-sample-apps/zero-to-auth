@@ -63,6 +63,26 @@ app.post("/otp/verify", async (req: Request, res: Response) => {
   res.sendStatus(200);
 });
 
+app.get("/oauth", async (req: Request, res: Response) => {
+  const authRes = await clientAuth.auth.oauth.start.google(
+    `http://localhost:${port}/oauth/finish`
+  );
+  if (!authRes.ok) {
+    return res.status(400).send(authRes.error);
+  }
+  res.redirect(authRes.data!.url);
+});
+
+app.get("/oauth/finish", async (req: Request, res: Response) => {
+  const { code } = req.query;
+  const authRes = await clientAuth.auth.oauth.exchange(code as string);
+  if (!authRes.ok) {
+    return res.status(400).send(authRes.error);
+  }
+  setAuthCookies(res, authRes);
+  res.status(302).redirect("http://localhost:3000");
+});
+
 // *** Protected Methods *** //
 
 const authMiddleware = async (

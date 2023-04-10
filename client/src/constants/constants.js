@@ -206,4 +206,5 @@ export const API_ROUTES = {
   OTP_LOGIN: `${BASE_URL}/otp/login`,
   OTP_VERIFY: `${BASE_URL}/otp/verify`,
   LOGOUT: `${BASE_URL}/logout`,
+  OAUTH: `${BASE_URL}/oauth`,
 };

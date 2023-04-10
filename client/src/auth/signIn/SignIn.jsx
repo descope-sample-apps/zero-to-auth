@@ -1,19 +1,18 @@
 import { useState, useCallback } from "react";
-import { Button, Col, Form, Input, Row, notification } from "antd";
+import { Button, Col, Form, Input, Row, Divider, notification } from "antd";
 import app_login from "../../assets/app_login.svg";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./sign.scss";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, GoogleOutlined } from "@ant-design/icons";
 import { API_ROUTES } from "../../constants/constants";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState("");
-  const [api, contextHolder] = notification.useNotification();
   const [otpStarted, setOtpStarted] = useState(false);
   const [email, setEmail] = useState("");
-
+  const [loading, setLoading] = useState("");
+  const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = useCallback(
     (type, message) => {
       api[type]({
@@ -49,6 +48,9 @@ const SignIn = () => {
     [navigate, email, otpStarted, openNotificationWithIcon]
   );
 
+  const handleOAuth = useCallback(async () => {
+    window.location.assign(API_ROUTES.OAUTH);
+  }, []);
   return (
     <div style={{ height: "99vh" }}>
       {contextHolder}
@@ -90,6 +92,21 @@ const SignIn = () => {
                 </Button>
               </Form.Item>
             </Form>
+            {!otpStarted && (
+              <>
+                <Divider> OR </Divider>
+                <Button
+                  htmlType="submit"
+                  size="large"
+                  style={{ width: "100%" }}
+                  disabled={loading}
+                  onClick={handleOAuth}
+                >
+                  <GoogleOutlined />
+                  Login With Google
+                </Button>
+              </>
+            )}
           </div>
         </Col>
         <Col
