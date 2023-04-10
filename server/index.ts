@@ -42,47 +42,6 @@ app.use(express.json());
 
 const port = process.env.PORT || 8080;
 
-// *** Login Methods *** //
-
-app.post("/otp/login", async (req: Request, res: Response) => {
-  const { email } = req.body;
-  const authRes = await clientAuth.auth.otp.signUpOrIn.email(email);
-  if (!authRes.ok) {
-    return res.status(400).send(authRes.error);
-  }
-  res.sendStatus(200);
-});
-
-app.post("/otp/verify", async (req: Request, res: Response) => {
-  const { email, code } = req.body;
-  const authRes = await clientAuth.auth.otp.verify.email(email, code);
-  if (!authRes.ok) {
-    return res.status(400).send(authRes.error);
-  }
-  setAuthCookies(res, authRes);
-  res.sendStatus(200);
-});
-
-app.get("/oauth", async (req: Request, res: Response) => {
-  const authRes = await clientAuth.auth.oauth.start.google(
-    `http://localhost:${port}/oauth/finish`
-  );
-  if (!authRes.ok) {
-    return res.status(400).send(authRes.error);
-  }
-  res.redirect(authRes.data!.url);
-});
-
-app.get("/oauth/finish", async (req: Request, res: Response) => {
-  const { code } = req.query;
-  const authRes = await clientAuth.auth.oauth.exchange(code as string);
-  if (!authRes.ok) {
-    return res.status(400).send(authRes.error);
-  }
-  setAuthCookies(res, authRes);
-  res.status(302).redirect("http://localhost:3000");
-});
-
 // *** Protected Methods *** //
 
 const authMiddleware = async (
@@ -91,22 +50,15 @@ const authMiddleware = async (
   next: NextFunction
 ) => {
   const cookies = parseCookies(req);
-  let sessionToken = cookies[DescopeClient.SessionTokenCookieName];
+  const sessionToken = cookies[DescopeClient.SessionTokenCookieName];
   try {
     // validate session
     await clientAuth.auth.validateSession(sessionToken);
   } catch (e) {
-    // if session is invalid, try to refresh
-    const refreshToken = cookies[DescopeClient.RefreshTokenCookieName];
-    const authRes = await clientAuth.auth.refresh(refreshToken);
-    if (!authRes.ok) {
-      res.status(401).json({
-        error: new Error("Unauthorized"),
-      });
-      return;
-    }
-    setAuthCookies(res, authRes);
-    sessionToken = authRes.data!.sessionJwt;
+    res.status(401).json({
+      error: new Error("Unauthorized"),
+    });
+    return;
   }
   // Add sessionToken to request context for later use
   req.context = { sessionToken };
