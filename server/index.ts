@@ -83,6 +83,7 @@ const authMiddleware = async (
       res.status(401).json({
         error: new Error("Unauthorized"),
       });
+      return;
     }
     setAuthCookies(res, authRes);
     sessionToken = authRes.data!.sessionJwt;
