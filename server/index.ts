@@ -34,6 +34,7 @@ const port = process.env.PORT || 8080;
 
 // *** Login Methods *** //
 
+// ## Add route for opt login that will send an email to the user with a one time password
 app.post("/otp/login", async (req: Request, res: Response) => {
   const { email } = req.body;
   const authRes = await clientAuth.auth.otp.signUpOrIn.email(email);
