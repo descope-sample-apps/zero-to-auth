@@ -64,21 +64,25 @@ app.post("/otp/verify", async (req: Request, res: Response) => {
 });
 
 app.get("/oauth", async (req: Request, res: Response) => {
+  // ## start oauth login with google and provide where to redirect after login
   const authRes = await clientAuth.auth.oauth.start.google(
     `http://localhost:${port}/oauth/finish`
   );
   if (!authRes.ok) {
     return res.status(400).send(authRes.error);
   }
+  // ## redirect to auth provider login page
   res.redirect(authRes.data!.url);
 });
 
 app.get("/oauth/finish", async (req: Request, res: Response) => {
   const { code } = req.query;
+  // ## exchange code for tokens
   const authRes = await clientAuth.auth.oauth.exchange(code as string);
   if (!authRes.ok) {
     return res.status(400).send(authRes.error);
   }
+  // ## set cookies and redirect to app
   setAuthCookies(res, authRes);
   res.status(302).redirect("http://localhost:3000");
 });
@@ -91,13 +95,13 @@ const authMiddleware = async (
   next: NextFunction
 ) => {
   const cookies = parseCookies(req);
+  const refreshToken = cookies[DescopeClient.RefreshTokenCookieName];
   let sessionToken = cookies[DescopeClient.SessionTokenCookieName];
   try {
     // validate session
     await clientAuth.auth.validateSession(sessionToken);
   } catch (e) {
     // if session is invalid, try to refresh
-    const refreshToken = cookies[DescopeClient.RefreshTokenCookieName];
     const authRes = await clientAuth.auth.refresh(refreshToken);
     if (!authRes.ok) {
       res.status(401).json({
@@ -109,7 +113,7 @@ const authMiddleware = async (
     sessionToken = authRes.data!.sessionJwt;
   }
   // Add sessionToken to request context for later use
-  req.context = { sessionToken };
+  req.context = { sessionToken, refreshToken };
   next();
 };
 
@@ -133,8 +137,11 @@ router.get("/pie_chart", (_, res: Response) => {
 });
 
 router.post("/logout", async (req: Request, res: Response) => {
-  const { sessionToken } = req.context;
-  await clientAuth.auth.logout(sessionToken);
+  const { refreshToken } = req.context;
+  const authRes = await clientAuth.auth.logout(refreshToken);
+  if (!authRes.ok) {
+    return res.status(400).send(authRes.error);
+  }
 
   res.clearCookie(DescopeClient.SessionTokenCookieName);
   res.clearCookie(DescopeClient.RefreshTokenCookieName);
