@@ -16,7 +16,8 @@ const SignIn = () => {
     <div style={{ height: "99vh" }}>
       <Row className="main-row">
         <Col flex="1 1 200px" className="left-container">
-          <div style={{ marginTop: 200, marginLeft: 120 }}>
+          <div style={{ marginTop: 60, marginLeft: 120, width: "95%" }}>
+            <h1 style={{ padding: "2em" }}>Sign In</h1>
             <Descope flowId="sign-up-or-in" onSuccess={onSuccess} />
           </div>
         </Col>
