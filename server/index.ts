@@ -44,12 +44,14 @@ app.post("/otp/login", async (req: Request, res: Response) => {
   res.sendStatus(200);
 });
 
+// ## Add this route to verify the OTP code sent to the user's email
 app.post("/otp/verify", async (req: Request, res: Response) => {
   const { email, code } = req.body;
   const authRes = await clientAuth.auth.otp.verify.email(email, code);
   if (!authRes.ok) {
     return res.status(400).send(authRes.error);
   }
+  // ## Set the cookies on the response
   setAuthCookies(res, authRes);
   res.sendStatus(200);
 });

@@ -17,6 +17,7 @@ const generateCookie = (
     options?.cookiePath || "/"
   }; HttpOnly; SameSite=Strict`;
 
+// ## Extract the cookies and session token and set them on the response
 export const setAuthCookies = <T extends ResponseData>(
   res: Response,
   out: SdkResponse<T>
