@@ -6,9 +6,18 @@ import pieChart from "./data/pieChart.ts";
 import cors from "cors";
 import dotenv from "dotenv";
 import DescopeClient from "@descope/node-sdk";
-import { setAuthCookies } from "./authHelpers.ts";
+import { parseCookies, setAuthCookies } from "./authHelpers.ts";
+import { RequestContext } from "./types.ts";
 
 dotenv.config();
+
+declare global {
+  namespace Express {
+    interface Request {
+      context: RequestContext;
+    }
+  }
+}
 
 if (!process.env.DESCOPE_PROJECT_ID) {
   console.warn(
@@ -54,21 +63,55 @@ app.post("/otp/verify", async (req: Request, res: Response) => {
   res.sendStatus(200);
 });
 
-app.get("/product_data", (_, res: Response) => {
+// *** Protected Methods *** //
+
+const authMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const cookies = parseCookies(req);
+  let sessionToken = cookies[DescopeClient.SessionTokenCookieName];
+  try {
+    // validate session
+    await clientAuth.auth.validateSession(sessionToken);
+  } catch (e) {
+    // if session is invalid, try to refresh
+    const refreshToken = cookies[DescopeClient.RefreshTokenCookieName];
+    const authRes = await clientAuth.auth.refresh(refreshToken);
+    if (!authRes.ok) {
+      res.status(401).json({
+        error: new Error("Unauthorized"),
+      });
+    }
+    setAuthCookies(res, authRes);
+    sessionToken = authRes.data!.sessionJwt;
+  }
+  // Add sessionToken to request context for later use
+  req.context = { sessionToken };
+  next();
+};
+
+const router = express.Router();
+router.use(authMiddleware);
+
+router.get("/product_data", (_, res: Response) => {
   res.send(productData);
 });
 
-app.get("/priority_data", (_, res: Response) => {
+router.get("/priority_data", (_, res: Response) => {
   res.send(priorityData);
 });
 
-app.get("/bar_chart", (_, res: Response) => {
+router.get("/bar_chart", (_, res: Response) => {
   res.send(barChart);
 });
 
-app.get("/pie_chart", (_, res: Response) => {
+router.get("/pie_chart", (_, res: Response) => {
   res.send(pieChart);
 });
+
+app.use("/", router);
 
 // *** Start Server *** //
 app.listen(port, () => {
