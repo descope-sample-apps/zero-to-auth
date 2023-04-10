@@ -112,6 +112,16 @@ router.get("/pie_chart", (_, res: Response) => {
   res.send(pieChart);
 });
 
+router.post("/logout", async (req: Request, res: Response) => {
+  const { sessionToken } = req.context;
+  await clientAuth.auth.logout(sessionToken);
+
+  res.clearCookie(DescopeClient.SessionTokenCookieName);
+  res.clearCookie(DescopeClient.RefreshTokenCookieName);
+
+  res.sendStatus(200);
+});
+
 app.use("/", router);
 
 // *** Start Server *** //

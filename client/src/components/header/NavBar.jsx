@@ -1,12 +1,37 @@
-import { Avatar, Breadcrumb, Col, Popover, Row, Typography } from "antd";
+import {
+  Avatar,
+  Breadcrumb,
+  Col,
+  Divider,
+  Popover,
+  Row,
+  Typography,
+} from "antd";
+import axios from "axios";
 import { UserOutlined } from "@ant-design/icons";
 import "./navbar.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { API_ROUTES } from "../../constants/constants";
+import { useCallback } from "react";
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const logoutUser = useCallback(async () => {
+    try {
+      await axios.post(API_ROUTES.LOGOUT, null, { withCredentials: true });
+    } catch (e) {
+      console.log(e);
+    }
+    navigate("/sign-in");
+  }, [navigate]);
+
   const content = (
     <div>
       <Typography.Title level={5}>✨ Hey There</Typography.Title>
+      <Divider />
+      <p style={{ color: "red", cursor: "pointer" }} onClick={logoutUser}>
+        Log out
+      </p>
     </div>
   );
 
