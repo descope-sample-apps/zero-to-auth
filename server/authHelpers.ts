@@ -36,6 +36,7 @@ export const setAuthCookies = <T extends ResponseData>(
   res.set("Set-Cookie", setCookies);
 };
 
+// ## Parse cookies from request
 export const parseCookies = (request: Request) => {
   const list: { [key: string]: string } = {};
   const cookieHeader = request.headers?.cookie;

@@ -64,7 +64,8 @@ app.post("/otp/verify", async (req: Request, res: Response) => {
 });
 
 // *** Protected Methods *** //
-
+// ## Auth middleware that validates session and refreshes if needed
+// ## Adds sessionToken to request context for later use
 const authMiddleware = async (
   req: Request,
   res: Response,
@@ -93,26 +94,26 @@ const authMiddleware = async (
   next();
 };
 
-const router = express.Router();
-router.use(authMiddleware);
+const authRouter = express.Router();
+authRouter.use(authMiddleware);
 
-router.get("/product_data", (_, res: Response) => {
+authRouter.get("/product_data", (_, res: Response) => {
   res.send(productData);
 });
 
-router.get("/priority_data", (_, res: Response) => {
+authRouter.get("/priority_data", (_, res: Response) => {
   res.send(priorityData);
 });
 
-router.get("/bar_chart", (_, res: Response) => {
+authRouter.get("/bar_chart", (_, res: Response) => {
   res.send(barChart);
 });
 
-router.get("/pie_chart", (_, res: Response) => {
+authRouter.get("/pie_chart", (_, res: Response) => {
   res.send(pieChart);
 });
 
-app.use("/", router);
+app.use("/", authRouter);
 
 // *** Start Server *** //
 app.listen(port, () => {
