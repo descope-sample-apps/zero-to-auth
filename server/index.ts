@@ -71,13 +71,13 @@ const authMiddleware = async (
   next: NextFunction
 ) => {
   const cookies = parseCookies(req);
+  const refreshToken = cookies[DescopeClient.RefreshTokenCookieName];
   let sessionToken = cookies[DescopeClient.SessionTokenCookieName];
   try {
     // validate session
     await clientAuth.auth.validateSession(sessionToken);
   } catch (e) {
     // if session is invalid, try to refresh
-    const refreshToken = cookies[DescopeClient.RefreshTokenCookieName];
     const authRes = await clientAuth.auth.refresh(refreshToken);
     if (!authRes.ok) {
       res.status(401).json({
@@ -89,7 +89,7 @@ const authMiddleware = async (
     sessionToken = authRes.data!.sessionJwt;
   }
   // Add sessionToken to request context for later use
-  req.context = { sessionToken };
+  req.context = { sessionToken, refreshToken };
   next();
 };
 
@@ -112,9 +112,13 @@ router.get("/pie_chart", (_, res: Response) => {
   res.send(pieChart);
 });
 
+// ## Logout extract refresh token from request context, call logout and clear cookies
 router.post("/logout", async (req: Request, res: Response) => {
-  const { sessionToken } = req.context;
-  await clientAuth.auth.logout(sessionToken);
+  const { refreshToken } = req.context;
+  const authRes = await clientAuth.auth.logout(refreshToken);
+  if (!authRes.ok) {
+    return res.status(400).send(authRes.error);
+  }
 
   res.clearCookie(DescopeClient.SessionTokenCookieName);
   res.clearCookie(DescopeClient.RefreshTokenCookieName);
