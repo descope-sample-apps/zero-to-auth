@@ -5,6 +5,7 @@ import barChart from "./data/barChart.ts";
 import pieChart from "./data/pieChart.ts";
 import cors from "cors";
 import dotenv from "dotenv";
+// ## Import Descope client
 import DescopeClient from "@descope/node-sdk";
 
 dotenv.config();
@@ -15,6 +16,7 @@ if (!process.env.DESCOPE_PROJECT_ID) {
   );
 }
 
+// ## Create an instance of Descope client
 const clientAuth = {
   auth: DescopeClient({
     projectId: process.env.DESCOPE_PROJECT_ID || "P2O9zUpunOAGLdVHie8He79diqHU",
