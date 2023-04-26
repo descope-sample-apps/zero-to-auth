@@ -6,7 +6,7 @@ import pieChart from "./data/pieChart.ts";
 import cors from "cors";
 import dotenv from "dotenv";
 import DescopeClient from "@descope/node-sdk";
-import { parseCookies, setAuthCookies } from "./authHelpers.ts";
+import { parseCookies } from "./authHelpers.ts";
 import { RequestContext } from "./types.ts";
 
 dotenv.config();
@@ -19,17 +19,12 @@ declare global {
   }
 }
 
-if (!process.env.DESCOPE_PROJECT_ID) {
-  console.warn(
-    `Please set DESCOPE_PROJECT_ID in your environment variables, falling back to author's project id.`
-  );
-}
+// Make sure you add your project ID in the .env file
 
-const clientAuth = {
-  auth: DescopeClient({
-    projectId: process.env.DESCOPE_PROJECT_ID || "P2O9zUpunOAGLdVHie8He79diqHU",
-  }),
-};
+// TODO: Implement this
+const clientAuth = DescopeClient({
+  projectId: "P2OEsPZdWHN2CkaERPhpTd8M25aR",
+});
 
 const app = express();
 app.use(
@@ -42,8 +37,7 @@ app.use(express.json());
 
 const port = process.env.PORT || 8080;
 
-// *** Protected Methods *** //
-
+// TODO: Implement this
 const authMiddleware = async (
   req: Request,
   res: Response,
@@ -51,17 +45,16 @@ const authMiddleware = async (
 ) => {
   const cookies = parseCookies(req);
   const sessionToken = cookies[DescopeClient.SessionTokenCookieName];
+
   try {
-    // validate session
-    await clientAuth.auth.validateSession(sessionToken);
+    await clientAuth.validateSession(sessionToken);
   } catch (e) {
     res.status(401).json({
       error: new Error("Unauthorized"),
     });
     return;
   }
-  // Add sessionToken to request context for later use
-  req.context = { sessionToken };
+
   next();
 };
 
