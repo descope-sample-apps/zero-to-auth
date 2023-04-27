@@ -4,10 +4,7 @@ import React from "react";
 
 const App = () => {
   return (
-    <AuthProvider
-      projectId="P2Oyutltg1yXq6RJybwJv3ZAOnXB"
-      sessionTokenViaCookie
-    >
+    <AuthProvider projectId="<Insert Project ID here>" sessionTokenViaCookie>
       <div className="App">
         <Container />
       </div>

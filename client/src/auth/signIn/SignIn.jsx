@@ -2,23 +2,15 @@ import { useCallback } from "react";
 import { Col, Row } from "antd";
 import app_login from "../../assets/app_login.svg";
 import { useNavigate } from "react-router-dom";
-import { Descope } from "@descope/react-sdk";
 import "./sign.scss";
 
 const SignIn = () => {
-  const navigate = useNavigate();
-
-  const onSuccess = useCallback(() => {
-    navigate("/");
-  }, [navigate]);
-
   return (
     <div style={{ height: "99vh" }}>
       <Row className="main-row">
         <Col flex="1 1 200px" className="left-container">
           <div style={{ marginTop: 60, marginLeft: 120, width: "95%" }}>
             <h1 style={{ padding: "2em" }}>Sign In</h1>
-            <Descope flowId="sign-up-or-in" onSuccess={onSuccess} />
           </div>
         </Col>
         <Col
