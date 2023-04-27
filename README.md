@@ -1,6 +1,6 @@
 ## zero-to-auth App
 
-zero-to-auth App is Sample app will be usfull for the workshop for "Add authentication flow using Descope". this app includes
+zero-to-auth is sample app for our monthly 0-to-Auth workshop. This app includes:
 
 NodeJS server
 React App client
@@ -8,12 +8,15 @@ React App client
 ## Getting Started
 
 This Sample app is contain **NodeJS server** and **React App client**.
-After the first-time configuration, you can
+
+This particular branch includes the finished code, for those that did not follow along and code out the middleware in the webinar.
+All you will have to do, is replace your Project ID's in the index.ts file (under /server) and the App.jsx file (under /client).
 
 ### Quick Start
 
 1. Install dependencies (root level)- `npm install`
-2. Start the zero-to-auth (root level) - `npm run dev`
+2. To start the server, run this command at root level (zero-to-auth) - `npm run server`
+3. To start the client, run this command at root level (zero-to-auth) - `npm run client` (You must define your project ID in App.jsx before running this)
 
-The client is now running on `http://localhost:3000`
-And The Server is now running on port 8080
+The client will by run, by default, on `http://localhost:3000`
+The Server will run on port 8080
