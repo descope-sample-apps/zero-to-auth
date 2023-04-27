@@ -5,8 +5,8 @@ import barChart from "./data/barChart.ts";
 import pieChart from "./data/pieChart.ts";
 import cors from "cors";
 import dotenv from "dotenv";
-import DescopeClient from "@descope/node-sdk";
 import { parseCookies } from "./authHelpers.ts";
+import DescopeClient from "@descope/node-sdk";
 import { RequestContext } from "./types.ts";
 
 dotenv.config();
@@ -19,11 +19,9 @@ declare global {
   }
 }
 
-// Make sure you add your project ID in the .env file
-
-// TODO: Implement this
+// Initialize DescopeClient
 const clientAuth = DescopeClient({
-  projectId: "P2OEsPZdWHN2CkaERPhpTd8M25aR",
+  projectId: "P2Oyutltg1yXq6RJybwJv3ZAOnXB",
 });
 
 const app = express();
@@ -37,7 +35,6 @@ app.use(express.json());
 
 const port = process.env.PORT || 8080;
 
-// TODO: Implement this
 const authMiddleware = async (
   req: Request,
   res: Response,

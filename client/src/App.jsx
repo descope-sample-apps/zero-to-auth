@@ -4,9 +4,8 @@ import React from "react";
 
 const App = () => {
   return (
-    // TODO: Wrap with AuthProvider
     <AuthProvider
-      projectId="P2Of1JkkbUkaw9Gv17xsjZcPOf5o"
+      projectId="P2Oyutltg1yXq6RJybwJv3ZAOnXB"
       sessionTokenViaCookie
     >
       <div className="App">

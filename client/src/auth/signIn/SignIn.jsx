@@ -2,8 +2,8 @@ import { useCallback } from "react";
 import { Col, Row } from "antd";
 import app_login from "../../assets/app_login.svg";
 import { useNavigate } from "react-router-dom";
-import "./sign.scss";
 import { Descope } from "@descope/react-sdk";
+import "./sign.scss";
 
 const SignIn = () => {
   const navigate = useNavigate();
