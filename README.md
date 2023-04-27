@@ -2,8 +2,8 @@
 
 zero-to-auth is sample app for our monthly 0-to-Auth workshop. This app includes:
 
-NodeJS server
-React App client
+1. NodeJS server
+2. React App client
 
 ## Getting Started
 
