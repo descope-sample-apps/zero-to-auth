@@ -8,6 +8,7 @@ import { useCallback, useState } from "react";
 import axios from "axios";
 import { API_ROUTES } from "../constants/constants";
 import { getSessionToken } from "@descope/react-sdk";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [priorityData, setPriorityData] = useState();
@@ -17,14 +18,23 @@ const Dashboard = () => {
   const [selectedOption, setSelectedOption] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
+  const navigate = useNavigate();
+
   const openNotificationWithIcon = useCallback(
     (type, message) => {
       api[type]({
         message: message,
+        duration: 1.5,
+        onClose: redirectToLogin,
+        onClick: redirectToLogin,
       });
     },
     [api]
   );
+
+  const redirectToLogin = useCallback(async () => {
+    navigate("/sign-in");
+  }, [navigate]);
 
   const getAPIData = useCallback(
     async (url) => {
@@ -56,11 +66,17 @@ const Dashboard = () => {
           }
           setIsLoading(false);
         } else {
-          openNotificationWithIcon("error", "API Failed: Something went wrong");
+          openNotificationWithIcon(
+            "error",
+            "Unauthorized. Redirecting to Sign In Page..."
+          );
           setIsLoading(false);
         }
       } catch (err) {
-        openNotificationWithIcon("error", "API Failed: Something went wrong");
+        openNotificationWithIcon(
+          "error",
+          "Unauthorized. Redirecting to Sign In Page..."
+        );
         setIsLoading(false);
       }
     },

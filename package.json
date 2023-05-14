@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/descope-sample-apps/zero-to-auth-frontend#readme",
   "dependencies": {
-    "concurrently": "^7.6.0"
+    "concurrently": "^7.6.0",
+    "reactjs-popup": "^2.0.5"
   },
   "devDependencies": {
     "husky": "^8.0.3",
