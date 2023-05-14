@@ -1,6 +1,5 @@
 import { useCallback } from "react";
-import { Col, Row } from "antd";
-import app_login from "../../assets/app_login.svg";
+import { Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Descope } from "@descope/react-sdk";
 import "./sign.scss";

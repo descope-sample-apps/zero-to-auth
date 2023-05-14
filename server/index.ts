@@ -5,8 +5,6 @@ import productData from "./data/productData.ts";
 import priorityData from "./data/priorityData.ts";
 import cors from "cors";
 import dotenv from "dotenv";
-import { getToken } from "./authHelpers.ts";
-import DescopeClient from "@descope/node-sdk";
 import { RequestContext } from "./types.ts";
 
 dotenv.config();
@@ -19,10 +17,6 @@ declare global {
   }
 }
 
-const clientAuth = DescopeClient({
-  projectId: "P2OEsPZdWHN2CkaERPhpTd8M25aR",
-});
-
 const app = express();
 app.use(
   cors({
@@ -34,24 +28,7 @@ app.use(express.json());
 
 const port = process.env.PORT || 8080;
 
-const authMiddleware = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const authInfo = await clientAuth.validateSession(getToken(req));
-  } catch (e) {
-    res.status(401).json({
-      error: new Error("Unauthorized"),
-    });
-    return;
-  }
-  next();
-};
-
 const router = express.Router();
-router.use(authMiddleware);
 
 router.get("/product_data", (_, res: Response) => {
   res.send(productData);

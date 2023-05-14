@@ -11,20 +11,11 @@ import { UserOutlined } from "@ant-design/icons";
 import "./navbar.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import { useDescope, useSession } from "@descope/react-sdk";
 
 const NavBar = () => {
   const navigate = useNavigate();
 
-  const { logout } = useDescope();
-  const { isAuthenticated } = useSession();
-
   const logoutUser = useCallback(async () => {
-    try {
-      await logout();
-    } catch (e) {
-      console.log(e);
-    }
     navigate("/sign-in");
   }, [navigate]);
 
@@ -76,42 +67,22 @@ const NavBar = () => {
           <Col span={2}>
             <div className="search-section">
               <div className="avtar">
-                {!isAuthenticated && (
-                  <Popover
-                    content={login_popover}
-                    trigger="click"
-                    placement="bottom"
+                <Popover
+                  content={login_popover}
+                  trigger="click"
+                  placement="bottom"
+                >
+                  <Avatar
+                    style={{
+                      backgroundColor: "#11047a",
+                      verticalAlign: "middle",
+                      cursor: "pointer",
+                    }}
+                    size="large"
                   >
-                    <Avatar
-                      style={{
-                        backgroundColor: "#11047a",
-                        verticalAlign: "middle",
-                        cursor: "pointer",
-                      }}
-                      size="large"
-                    >
-                      <UserOutlined />
-                    </Avatar>
-                  </Popover>
-                )}
-                {isAuthenticated && (
-                  <Popover
-                    content={logout_popover}
-                    trigger="click"
-                    placement="bottom"
-                  >
-                    <Avatar
-                      style={{
-                        backgroundColor: "#11047a",
-                        verticalAlign: "middle",
-                        cursor: "pointer",
-                      }}
-                      size="large"
-                    >
-                      <UserOutlined />
-                    </Avatar>
-                  </Popover>
-                )}
+                    <UserOutlined />
+                  </Avatar>
+                </Popover>
               </div>
             </div>
           </Col>

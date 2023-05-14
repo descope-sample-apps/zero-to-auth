@@ -7,7 +7,6 @@ import PriorityDeals from "./component/PriorityDeals";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import { API_ROUTES } from "../constants/constants";
-import { getSessionToken } from "@descope/react-sdk";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -39,13 +38,7 @@ const Dashboard = () => {
   const getAPIData = useCallback(
     async (url) => {
       try {
-        const sessionToken = getSessionToken();
         setIsLoading(true);
-        const response = await axios.get(`${API_ROUTES.BASE_URL}/${url}`, {
-          headers: {
-            Authorization: `Bearer ${sessionToken}`,
-          },
-        });
         const { status, data } = response;
         if (status === 200) {
           switch (url) {
