@@ -7,17 +7,18 @@ import {
   Row,
   Typography,
 } from "antd";
-import axios from "axios";
 import { UserOutlined } from "@ant-design/icons";
 import "./navbar.scss";
 import { Link, useNavigate } from "react-router-dom";
-import { API_ROUTES } from "../../constants/constants";
 import { useCallback } from "react";
-import { useDescope } from "@descope/react-sdk";
+import { useDescope, useSession } from "@descope/react-sdk";
 
 const NavBar = () => {
   const navigate = useNavigate();
+
   const { logout } = useDescope();
+  const { isAuthenticated } = useSession();
+
   const logoutUser = useCallback(async () => {
     try {
       await logout();
@@ -27,12 +28,26 @@ const NavBar = () => {
     navigate("/sign-in");
   }, [navigate]);
 
-  const content = (
+  const loginUser = useCallback(async () => {
+    navigate("/sign-in");
+  }, [navigate]);
+
+  const logout_popover = (
     <div>
       <Typography.Title level={5}>✨ Hey There</Typography.Title>
       <Divider />
       <p style={{ color: "red", cursor: "pointer" }} onClick={logoutUser}>
         Log out
+      </p>
+    </div>
+  );
+
+  const login_popover = (
+    <div>
+      <Typography.Title level={5}>✨ Hey There</Typography.Title>
+      <Divider />
+      <p style={{ color: "green", cursor: "pointer" }} onClick={loginUser}>
+        Log in
       </p>
     </div>
   );
@@ -61,18 +76,42 @@ const NavBar = () => {
           <Col span={2}>
             <div className="search-section">
               <div className="avtar">
-                <Popover content={content} trigger="click" placement="bottom">
-                  <Avatar
-                    style={{
-                      backgroundColor: "#11047a",
-                      verticalAlign: "middle",
-                      cursor: "pointer",
-                    }}
-                    size="large"
+                {!isAuthenticated && (
+                  <Popover
+                    content={login_popover}
+                    trigger="click"
+                    placement="bottom"
                   >
-                    <UserOutlined />
-                  </Avatar>
-                </Popover>
+                    <Avatar
+                      style={{
+                        backgroundColor: "#11047a",
+                        verticalAlign: "middle",
+                        cursor: "pointer",
+                      }}
+                      size="large"
+                    >
+                      <UserOutlined />
+                    </Avatar>
+                  </Popover>
+                )}
+                {isAuthenticated && (
+                  <Popover
+                    content={logout_popover}
+                    trigger="click"
+                    placement="bottom"
+                  >
+                    <Avatar
+                      style={{
+                        backgroundColor: "#11047a",
+                        verticalAlign: "middle",
+                        cursor: "pointer",
+                      }}
+                      size="large"
+                    >
+                      <UserOutlined />
+                    </Avatar>
+                  </Popover>
+                )}
               </div>
             </div>
           </Col>

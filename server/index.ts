@@ -1,11 +1,11 @@
 import express, { NextFunction, Request, Response } from "express";
-import productData from "./data/productData.ts";
-import priorityData from "./data/priorityData.ts";
 import barChart from "./data/barChart.ts";
 import pieChart from "./data/pieChart.ts";
+import productData from "./data/productData.ts";
+import priorityData from "./data/priorityData.ts";
 import cors from "cors";
 import dotenv from "dotenv";
-import { parseCookies } from "./authHelpers.ts";
+import { getToken } from "./authHelpers.ts";
 import DescopeClient from "@descope/node-sdk";
 import { RequestContext } from "./types.ts";
 
@@ -19,9 +19,8 @@ declare global {
   }
 }
 
-// Initialize DescopeClient
 const clientAuth = DescopeClient({
-  projectId: "P2Oyutltg1yXq6RJybwJv3ZAOnXB",
+  projectId: "P2OEsPZdWHN2CkaERPhpTd8M25aR",
 });
 
 const app = express();
@@ -40,18 +39,14 @@ const authMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  const cookies = parseCookies(req);
-  const sessionToken = cookies[DescopeClient.SessionTokenCookieName];
-
   try {
-    await clientAuth.validateSession(sessionToken);
+    const authInfo = await clientAuth.validateSession(getToken(req));
   } catch (e) {
     res.status(401).json({
       error: new Error("Unauthorized"),
     });
     return;
   }
-
   next();
 };
 

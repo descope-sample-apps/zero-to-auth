@@ -19,3 +19,5 @@ This particular branch includes the finished code, for those that did not follow
 3. To start the client, run this command at root level (zero-to-auth) - `npm run client`
 
 The client will by run, by default, on `http://localhost:3000`. The server will run on `PORT=8080`.
+
+If you would like to use the flow provided from the webinar, you will need to go to your Sign-Up-Or-In flow [here](https://app.descope.com/flows/builder/sign-up-or-in) and upload the file `sign-up-or-in flow.json` provided in the root directory of this repository.
