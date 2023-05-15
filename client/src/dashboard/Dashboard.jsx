@@ -39,6 +39,11 @@ const Dashboard = () => {
     async (url) => {
       try {
         setIsLoading(true);
+        const response = await axios.get(`${API_ROUTES.BASE_URL}/${url}`, {
+          headers: {
+            Authorization: `Bearer`,
+          },
+        });
         const { status, data } = response;
         if (status === 200) {
           switch (url) {
