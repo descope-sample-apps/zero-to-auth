@@ -1,0 +1,25 @@
+.main-row {
+  height: 100%;
+  .left-container {
+    overflow-y: auto;
+    height: 100%;
+    .wrapper {
+      padding: 62px 9em;
+    }
+  }
+  .right-container {
+    height: 100%;
+
+    @media only screen and (max-width: 600px) {
+      display: none;
+    }
+    @media only screen and (min-width: 600px) and (max-width: 1000px) {
+      display: none;
+    }
+
+    .img-banner {
+      border-bottom-left-radius: 200px;
+      height: 100%;
+    }
+  }
+}

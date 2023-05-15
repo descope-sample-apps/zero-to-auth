@@ -2,6 +2,7 @@ import { Avatar, Breadcrumb, Col, Popover, Row, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const content = (

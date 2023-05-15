@@ -15,31 +15,27 @@ const ProjectLayout = ({ children }) => {
 
   const location = useLocation();
 
-  if (location.pathname === "/sign-in") {
-    return (
-      <>
-        {children}
-      </>
-    );
+  if (location.pathname === "/login") {
+    return <>{children}</>;
   }
   return (
     <ConfigProvider>
       <Space
-          direction="vertical"
-          style={{
-            width: "100%",
-          }}
-          size={[0, 50]}
-        >
+        direction="vertical"
+        style={{
+          width: "100%",
+        }}
+        size={[0, 50]}
+      >
+        <Layout>
           <Layout>
-            <Layout>
-              <Header className="header-style">
-                <NavBar handleClick={handleClick} />
-              </Header>
-              <Content className="content-style">{children}</Content>
-            </Layout>
+            <Header className="header-style">
+              <NavBar handleClick={handleClick} />
+            </Header>
+            <Content className="content-style">{children}</Content>
           </Layout>
-        </Space>
+        </Layout>
+      </Space>
     </ConfigProvider>
   );
 };
