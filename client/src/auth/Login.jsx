@@ -1,15 +1,18 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button, Col, Form, Input, Row, Divider, notification } from "antd";
 import app_login from "../assets/app_login.svg";
 import "./login.scss";
 import { UserOutlined, GoogleOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useDescope } from "@descope/react-sdk";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const sdk = useDescope();
   const [otpStarted, setOtpStarted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = useCallback(
     (type, message) => {
@@ -20,15 +23,32 @@ const Login = () => {
     [api]
   );
 
+  // complete OAuth if redirected to this page with code
+  useEffect(() => {
+    const code = searchParams.get("code");
+    if (code) {
+      sdk.oauth.exchange(code).then(() => {
+        navigate("/");
+      });
+    }
+  }, [searchParams, sdk, navigate]);
+
   const handleOTP = useCallback(
     async (form) => {
       setLoading(true);
       try {
-        console.log("handle OTP", form);
         if (!otpStarted) {
           setEmail(form.email);
+          const res = await sdk.otp.signUpOrIn.email(form.email);
+          if (!res.ok) {
+            throw new Error(res.error);
+          }
           setOtpStarted(true);
         } else {
+          const res = await sdk.otp.verify.email(email, form.code);
+          if (!res.ok) {
+            throw new Error(res.error);
+          }
           navigate("/");
         }
       } catch (e) {
@@ -37,13 +57,30 @@ const Login = () => {
       }
       setLoading(false);
     },
-    [setLoading, setOtpStarted, openNotificationWithIcon, otpStarted, navigate]
+    [
+      setLoading,
+      setOtpStarted,
+      openNotificationWithIcon,
+      otpStarted,
+      navigate,
+      sdk,
+      email,
+    ]
   );
 
   const handleOAuth = useCallback(async () => {
-    console.log("handle OAuth");
-    navigate("/");
-  }, [navigate]);
+    try {
+      const res = await sdk.oauth.start.google(window.location.href);
+      if (!res.ok) {
+        throw new Error(res.error);
+      }
+
+      window.location.href = res.data.url;
+    } catch (ex) {
+      console.log(ex);
+      openNotificationWithIcon("error", "Oops. Something went wrong");
+    }
+  }, [sdk, openNotificationWithIcon]);
   return (
     <div style={{ height: "99vh" }}>
       {contextHolder}
