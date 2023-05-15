@@ -17,7 +17,7 @@ app.use(
 );
 app.use(express.json());
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 4000;
 
 app.get("/product_data", (_, res: Response) => {
   res.send(productData);

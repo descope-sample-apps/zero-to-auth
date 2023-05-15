@@ -199,7 +199,7 @@ export const BAR_CHART_OPTIONS = {
   },
 };
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "http://localhost:4000";
 
 export const API_ROUTES = {
   BASE_URL,
