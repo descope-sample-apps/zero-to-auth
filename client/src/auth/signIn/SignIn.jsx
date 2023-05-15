@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 import { Row } from "antd";
 import { useNavigate } from "react-router-dom";
-import { Descope } from "@descope/react-sdk";
 import "./sign.scss";
 
 const SignIn = () => {
@@ -21,9 +20,7 @@ const SignIn = () => {
             top: "50%",
             transform: "translate(-50%, -50%)",
           }}
-        >
-          <Descope flowId="sign-up-or-in" onSuccess={onSuccess} />
-        </div>
+        ></div>
       </Row>
     </div>
   );
