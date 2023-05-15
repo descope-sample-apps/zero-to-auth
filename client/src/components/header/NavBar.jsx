@@ -1,15 +1,23 @@
-import { Avatar, Breadcrumb, Col, Popover, Row, Typography } from "antd";
+import {
+  Avatar,
+  Breadcrumb,
+  Button,
+  Col,
+  Popover,
+  Row,
+  Typography,
+} from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "./navbar.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useCallback } from "react";
 
 const NavBar = () => {
-  const content = (
-    <div>
-      <Typography.Title level={5}>✨ Hey There</Typography.Title>
-    </div>
-  );
+  const navigate = useNavigate();
 
+  const handleLogout = useCallback(() => {
+    navigate("/login");
+  }, [navigate]);
   return (
     <section>
       <div className="header-section">
@@ -34,7 +42,20 @@ const NavBar = () => {
           <Col span={2}>
             <div className="search-section">
               <div className="avtar">
-                <Popover content={content} trigger="click" placement="bottom">
+                <Popover
+                  content={
+                    <div>
+                      <Typography.Title level={5}>
+                        ✨ Hey There
+                      </Typography.Title>
+                      <Button type="text" onClick={handleLogout}>
+                        Logout
+                      </Button>
+                    </div>
+                  }
+                  trigger="click"
+                  placement="bottom"
+                >
                   <Avatar
                     style={{
                       backgroundColor: "#11047a",
