@@ -30,13 +30,15 @@ const NavBar = () => {
                     {
                       title: "Pages",
                     },
-                    { title: "Your Rev Dashboard" },
+                    { title: "IScream" },
                   ]}
                 />
               </Link>
             </div>
             <div>
-              <Typography className="menu-text">Your Rev Dashboard</Typography>
+              <Typography className="menu-text">
+                IScream for Ice Cream
+              </Typography>
             </div>
           </Col>
           <Col span={2}>

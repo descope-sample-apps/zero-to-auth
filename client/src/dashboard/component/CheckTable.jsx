@@ -8,7 +8,7 @@ const CheckTable = (props) => {
     <Card>
       <div className="revenue-container">
         <Typography style={{ fontSize: 20, color: "#1b2559", fontWeight: 700 }}>
-          Revenue by Product
+          Ice Cream Toppings
         </Typography>
       </div>
 

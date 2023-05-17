@@ -7,23 +7,23 @@ import {
 
 export const REV_PRODUCT_COLUMNS = [
   {
-    title: "NAME",
+    title: "TOPPING",
     dataIndex: "name",
     key: "name",
   },
   {
-    title: "PROGRESS",
+    title: "TIMES ORDERED",
     dataIndex: "progress",
     render: (progress) => <Progress percent={progress} status="active" />,
     key: "progress",
   },
   {
-    title: "CUSTOMERS",
+    title: "COST PER SCOOP",
     dataIndex: "quantity",
     key: "quantity",
   },
   {
-    title: "MOST RECENT DEAL",
+    title: "LAST ORDERED",
     dataIndex: "date",
     key: "date",
   },
@@ -32,20 +32,20 @@ export const REV_PRODUCT_COLUMNS = [
 export const PRIORITIZED_DEALS_COLUMNS = [
   {
     title: "NAME",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "iceCreamPlace",
+    key: "iceCreamPlace",
   },
   {
-    title: "STATUS",
+    title: "Score",
     dataIndex: "status",
     key: "status",
     render: (status) =>
-      status === "Signed" ? (
+      status === "Delicious" || status === "Outstanding" ? (
         <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <CheckCircleFilled className="check-circle" />
           <span> {status}</span>
         </div>
-      ) : status === "At Risk" ? (
+      ) : status === "Disappointing" ? (
         <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <CloseCircleFilled className="close-circle" />
           <span> {status}</span>
@@ -58,20 +58,20 @@ export const PRIORITIZED_DEALS_COLUMNS = [
   },
   {
     title: "DATE",
-    dataIndex: "date",
-    key: "date",
+    dataIndex: "lastVisit",
+    key: "lastVisit",
   },
   {
-    title: "PROGRESS",
-    dataIndex: "progress",
+    title: "How Much I Love It",
+    dataIndex: "consumption",
     render: (progress) => <Progress percent={progress} status="active" />,
-    key: "progress",
+    key: "consumption",
   },
 ];
 
 export const PIE_CHART_OPTIONS = {
-  labels: ["Germany", "Canada", "Other Markets"],
-  colors: ["#4318FF", "#6AD2FF", "#EFF4FB"],
+  labels: ["DAY", "NIGHT", "CANT REMEMBER"],
+  colors: ["#FDB813", "#001D4A", "#A9A9A9"],
   chart: {
     width: "50px",
   },
@@ -100,7 +100,7 @@ export const PIE_CHART_OPTIONS = {
     },
   },
   fill: {
-    colors: ["#4318FF", "#6AD2FF", "#EFF4FB"],
+    colors: ["#FDB813", "#001D4A", "#A9A9A9"],
   },
   tooltip: {
     enabled: true,
@@ -182,12 +182,12 @@ export const BAR_CHART_OPTIONS = {
   },
   fill: {
     type: "solid",
-    colors: ["#5E37FF", "#6AD2FF", "#E1E9F8"],
+    colors: ["#6B3E26", "#F3E5AB", "#FC5A8D"],
   },
   legend: {
     show: false,
   },
-  colors: ["#5E37FF", "#6AD2FF", "#E1E9F8"],
+  colors: ["#6B3E26", "#F3E5AB", "#FC5A8D"],
   dataLabels: {
     enabled: false,
   },
