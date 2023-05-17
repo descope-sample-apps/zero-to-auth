@@ -21,7 +21,7 @@ const NavBar = () => {
   const handleLogout = useCallback(() => {
     sdk.logout();
     navigate("/login");
-  }, [navigate]);
+  }, [navigate, sdk]);
   return (
     <section>
       <div className="header-section">
