@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Button, Col, Form, Input, Row, Divider, notification } from "antd";
-import app_login from "../assets/app_login.svg";
+import icecream from "../assets/icecream.jpg";
 import "./login.scss";
 import { UserOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -144,7 +144,7 @@ const Login = () => {
           className="right-container"
           style={{ width: "41%" }}
         >
-          <img src={app_login} alt="app_login" className="img-banner" />
+          <img src={icecream} alt="icecream" className="img-banner" />
         </Col>
       </Row>
     </div>

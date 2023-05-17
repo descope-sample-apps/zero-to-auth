@@ -1,9 +1,9 @@
 import { Col, Row, Select, Space, notification } from "antd";
 import "./dashboard.scss";
-import WeeklyRevenu from "./component/WeeklyRevenu";
+import WeeklyIceCream from "./component/WeeklyIceCream";
 import PieCard from "./component/PieCard";
 import CheckTable from "./component/CheckTable";
-import PriorityDeals from "./component/PriorityDeals";
+import IceCreamPlaces from "./component/IceCreamPlaces";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import { API_ROUTES } from "../constants/constants";
@@ -79,19 +79,19 @@ const Dashboard = () => {
         options={[
           {
             value: "priority_data",
-            label: "Priority Deals",
+            label: "My Ice Cream Places",
           },
           {
             value: "bar_chart",
-            label: "Weekly Revenue",
+            label: "Weekly Ice Cream Consumption",
           },
           {
             value: "product_data",
-            label: "Revenue By Product",
+            label: "Ice Cream Toppings",
           },
           {
             value: "pie_chart",
-            label: "Market Breakdown",
+            label: "Ice Cream Daily Distribution ",
           },
         ]}
       />
@@ -99,12 +99,12 @@ const Dashboard = () => {
         <Row gutter={[14, 14]}>
           {selectedOption === "priority_data" && (
             <Col sm={24} md={19} lg={15} className="col-one">
-              <PriorityDeals tableData={priorityData} isLoading={isLoading} />
+              <IceCreamPlaces tableData={priorityData} isLoading={isLoading} />
             </Col>
           )}
           {selectedOption === "bar_chart" && (
             <Col xs={24} sm={12} md={15} className="col-one spin">
-              <WeeklyRevenu barData={barData} isLoading={isLoading} />
+              <WeeklyIceCream barData={barData} isLoading={isLoading} />
             </Col>
           )}
         </Row>
