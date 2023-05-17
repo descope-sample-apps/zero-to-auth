@@ -7,7 +7,7 @@ const PieCard = ({ pieData = [], isLoading }) => {
     <Card className="pi-wrapper">
       <div className="pie-container">
         <Typography style={{ fontSize: 16, color: "#1b2559", fontWeight: 700 }}>
-          Market Breakdown
+          Ice Cream Daily Distribution
         </Typography>
       </div>
       <div className="pie-chart">
@@ -17,10 +17,10 @@ const PieCard = ({ pieData = [], isLoading }) => {
         <div className="abc">
           <div className="flex-place">
             <div className="chart-series us-col" />
-            <Typography style={{ color: "#a3aed0" }}>Germany</Typography>
+            <Typography style={{ color: "#FDB813" }}>DAY</Typography>
           </div>
           <Typography
-            style={{ fontSize: 16, color: "#1b2559", fontWeight: 700 }}
+            style={{ fontSize: 16, color: "#FDB813", fontWeight: 700 }}
           >
             {pieData.length > 0 && pieData[0]}
           </Typography>
@@ -28,10 +28,10 @@ const PieCard = ({ pieData = [], isLoading }) => {
         <div className="abc">
           <div className="flex-place">
             <div className="chart-series canada-col" />
-            <Typography style={{ color: "#a3aed0" }}>Canada</Typography>
+            <Typography style={{ color: "#001D4A" }}>NIGHT</Typography>
           </div>
           <Typography
-            style={{ fontSize: 16, color: "#1b2559", fontWeight: 700 }}
+            style={{ fontSize: 16, color: "#001D4A", fontWeight: 700 }}
           >
             {pieData.length > 0 && pieData[1]}
           </Typography>
@@ -39,10 +39,10 @@ const PieCard = ({ pieData = [], isLoading }) => {
         <div className="abc">
           <div className="flex-place">
             <div className="chart-series other-col" />
-            <Typography style={{ color: "#a3aed0" }}>Other Markets</Typography>
+            <Typography style={{ color: "#a3aed0" }}>CAN'T REMEMBER</Typography>
           </div>
           <Typography
-            style={{ fontSize: 16, color: "#1b2559", fontWeight: 700 }}
+            style={{ fontSize: 16, color: "#001D4A", fontWeight: 700 }}
           >
             {pieData.length > 0 && pieData[2]}
           </Typography>
