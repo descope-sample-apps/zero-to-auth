@@ -7,6 +7,7 @@ import IceCreamPlaces from "./component/IceCreamPlaces";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import { API_ROUTES } from "../constants/constants";
+import { getSessionToken } from "@descope/react-sdk";
 
 const Dashboard = () => {
   const [priorityData, setPriorityData] = useState();
@@ -31,6 +32,9 @@ const Dashboard = () => {
         setIsLoading(true);
         const response = await axios.get(`${API_ROUTES.BASE_URL}/${url}`, {
           withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${getSessionToken()}`,
+          },
         });
         const { status, data } = response;
         if (status === 200) {
