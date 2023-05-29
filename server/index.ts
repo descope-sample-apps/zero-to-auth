@@ -5,6 +5,7 @@ import barChart from "./data/barChart.ts";
 import pieChart from "./data/pieChart.ts";
 import cors from "cors";
 import dotenv from "dotenv";
+import DescopeClient from "@descope/node-sdk";
 
 dotenv.config();
 
@@ -16,6 +17,28 @@ app.use(
   })
 );
 app.use(express.json());
+
+const sdk = DescopeClient({ projectId: "P2My9KRakUMj40L8KOBjAJLVWhWC" });
+
+const authMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const authHeader = req.headers?.authorization || "";
+  const sessionJwt = authHeader.replace("Bearer ", "");
+
+  try {
+    await sdk.validateJwt(sessionJwt);
+  } catch (e) {
+    return res.status(401).json({
+      error: new Error("unauthorized"),
+    });
+  }
+  next();
+};
+
+app.use(authMiddleware);
 
 const port = process.env.PORT || 4000;
 
