@@ -11,15 +11,16 @@ import { UserOutlined } from "@ant-design/icons";
 import "./navbar.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import { useDescope } from "@descope/react-sdk";
 
+//
 const NavBar = () => {
   const navigate = useNavigate();
-  const sdk = useDescope();
+
   const handleLogout = useCallback(() => {
-    sdk.logout();
+    // do the actual logout
     navigate("/login");
-  }, [navigate, sdk]);
+  }, [navigate]);
+
   return (
     <section>
       <div className="header-section">
@@ -52,9 +53,7 @@ const NavBar = () => {
                       <Typography.Title level={5}>
                         ✨ Hey There
                       </Typography.Title>
-                      <Button type="text" onClick={handleLogout}>
-                        Logout
-                      </Button>
+                      {/* Logout text button */}
                     </div>
                   }
                   trigger="click"

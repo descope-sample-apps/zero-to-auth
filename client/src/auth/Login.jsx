@@ -3,8 +3,8 @@ import { Col, Row } from "antd";
 import icecream from "../assets/icecream.jpg";
 import "./login.scss";
 import { useNavigate } from "react-router-dom";
-import { Descope } from "@descope/react-sdk";
 
+// Descope flow id: sign-up-or-in
 const Login = () => {
   const navigate = useNavigate();
 
@@ -16,9 +16,15 @@ const Login = () => {
     <div style={{ height: "99vh" }}>
       <Row className="main-row">
         <Col flex="1 1 200px" className="left-container">
-          <div className="wrapper">
-            <h1 style={{ padding: "2em" }}>Login</h1>
-            <Descope flowId="sign-up-or-in" onSuccess={onSuccess} />
+          <div
+            className="wrapper"
+            style={{
+              paddingTop: "12em",
+              paddingRight: "15em",
+              paddingLeft: "15em",
+            }}
+          >
+            {/* Login component */}
           </div>
         </Col>
         <Col

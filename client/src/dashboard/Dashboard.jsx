@@ -7,8 +7,8 @@ import IceCreamPlaces from "./component/IceCreamPlaces";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import { API_ROUTES } from "../constants/constants";
-import { getSessionToken } from "@descope/react-sdk";
 
+//
 const Dashboard = () => {
   const [priorityData, setPriorityData] = useState();
   const [revenueProductData, setRevenueProductData] = useState();
@@ -33,7 +33,7 @@ const Dashboard = () => {
         const response = await axios.get(`${API_ROUTES.BASE_URL}/${url}`, {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${getSessionToken()}`,
+            // Send descope's user session to the backend in the Authorization header (Bearer <session>)
           },
         });
         const { status, data } = response;
@@ -56,11 +56,11 @@ const Dashboard = () => {
           }
           setIsLoading(false);
         } else {
-          openNotificationWithIcon("error", "API Failed: Something went wrong");
+          openNotificationWithIcon("error", "API Failed: Unauthorized");
           setIsLoading(false);
         }
       } catch (err) {
-        openNotificationWithIcon("error", "API Failed: Something went wrong");
+        openNotificationWithIcon("error", "API Failed: Unauthorized");
         setIsLoading(false);
       }
     },
