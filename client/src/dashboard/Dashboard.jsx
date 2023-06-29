@@ -7,8 +7,9 @@ import IceCreamPlaces from "./component/IceCreamPlaces";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import { API_ROUTES } from "../constants/constants";
+import { getSessionToken } from "@descope/react-sdk";
 
-//
+// Dashboard component
 const Dashboard = () => {
   const [priorityData, setPriorityData] = useState();
   const [revenueProductData, setRevenueProductData] = useState();
@@ -34,6 +35,7 @@ const Dashboard = () => {
           withCredentials: true,
           headers: {
             // Send descope's user session to the backend in the Authorization header (Bearer <session>)
+            Authorization: `Bearer ${getSessionToken()}`,
           },
         });
         const { status, data } = response;

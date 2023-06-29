@@ -3,8 +3,9 @@ import { Col, Row } from "antd";
 import icecream from "../assets/icecream.jpg";
 import "./login.scss";
 import { useNavigate } from "react-router-dom";
+import { Descope } from "@descope/react-sdk";
 
-// Descope flow id: sign-up-or-in
+// Login component - Descope flow id: sign-up-or-in
 const Login = () => {
   const navigate = useNavigate();
 
@@ -25,6 +26,7 @@ const Login = () => {
             }}
           >
             {/* Login component */}
+            <Descope flowId="sign-up-or-in" onSuccess={onSuccess} />
           </div>
         </Col>
         <Col

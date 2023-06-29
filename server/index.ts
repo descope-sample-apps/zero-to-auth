@@ -7,7 +7,11 @@ import cors from "cors";
 import dotenv from "dotenv";
 import DescopeClient from "@descope/node-sdk";
 
-//
+// Backend router - Descope project ID: P2QEMO7FGX3WC8s3ZmEwlfuOkXb8
+const descopeClient = DescopeClient({
+  projectId: "P2QEMO7FGX3WC8s3ZmEwlfuOkXb8",
+});
+
 dotenv.config();
 
 const app = express();
@@ -26,10 +30,11 @@ const authMiddleware = async (
 ) => {
   // Get Authorization header and session JWT from the request
   const authHeader = req.headers?.authorization || "";
-  const sessionJwt = authHeader.replace("Bearer ", "");
+  const sessionToken = authHeader.replace("Bearer ", "");
 
   try {
-    // Validate the session JWT
+    // Validate the session token
+    await descopeClient.validateSession(sessionToken);
   } catch (e) {
     return res.status(401).json({
       error: new Error("Unauthorized"),
