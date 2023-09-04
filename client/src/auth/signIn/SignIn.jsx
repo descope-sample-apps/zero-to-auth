@@ -6,9 +6,11 @@ import axios from "axios";
 import "./sign.scss";
 import { UserOutlined, GoogleOutlined } from "@ant-design/icons";
 import { API_ROUTES } from "../../constants/constants";
+import { useDescope } from "@descope/react-sdk";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const sdk = useDescope();
   const [otpStarted, setOtpStarted] = useState(false);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState("");
@@ -26,17 +28,11 @@ const SignIn = () => {
       setLoading(true);
       try {
         if (!otpStarted) {
-          await axios.post(API_ROUTES.OTP_LOGIN, form, {
-            withCredentials: true,
-          });
+          await sdk.otp.signUpOrIn.email(form.email);
           setOtpStarted(true);
           setEmail(form.email);
         } else {
-          await axios.post(
-            API_ROUTES.OTP_VERIFY,
-            { email, ...form },
-            { withCredentials: true }
-          );
+          await sdk.otp.verify.email(email, form.code);
           navigate("/");
         }
       } catch (e) {
