@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
-    "@descope/react-sdk": "1.0.3",
+    "@descope/react-sdk": "1.0.12",
     "antd": "^5.2.2",
     "axios": "^1.3.4",
     "prismjs": "^1.29.0",
@@ -13,7 +13,9 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
     "sass": "^1.58.3",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "react-apexcharts": "^1.4.1",
+    "apexcharts": "^3.42.0"
   },
   "devDependencies": {
     "react-scripts": "5.0.1"
