@@ -27,7 +27,8 @@ if (!process.env.DESCOPE_PROJECT_ID) {
 
 const clientAuth = {
   auth: DescopeClient({
-    projectId: process.env.DESCOPE_PROJECT_ID || "P2O9zUpunOAGLdVHie8He79diqHU",
+    projectId: process.env.DESCOPE_PROJECT_ID || "P2UEmfEerYrRzTavvNJI9bMTWePg",
+    managementKey: process.env.DESCOPE_MANAGEMENT_KEY,
   }),
 };
 
@@ -40,7 +41,7 @@ app.use(
 );
 app.use(express.json());
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8082;
 
 // *** Protected Methods *** //
 
@@ -49,8 +50,15 @@ const authMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  const cookies = parseCookies(req);
-  const sessionToken = cookies[DescopeClient.SessionTokenCookieName];
+  // const cookies = parseCookies(req);
+  // const sessionToken = cookies[DescopeClient.SessionTokenCookieName];
+
+  const sessionToken = req.headers.authorization?.split(" ")[1] as string;
+
+  console.log(
+    "authMiddleware sessionToken",
+    sessionToken?.substring(0, 10) + "..."
+  );
   try {
     // validate session
     await clientAuth.auth.validateSession(sessionToken);
@@ -82,6 +90,22 @@ router.get("/bar_chart", (_, res: Response) => {
 
 router.get("/pie_chart", (_, res: Response) => {
   res.send(pieChart);
+});
+
+router.post("/update_jwt", async (req: Request, res: Response) => {
+  const { sessionToken } = req.context;
+  const { refreshToken } = req.body;
+  console.log("sessionToken", sessionToken?.substring(0, 10) + "...");
+  console.log("refreshToken", refreshToken?.substring(0, 10) + "...");
+  const out = await clientAuth.auth.management.jwt.update(refreshToken, {
+    AA: "BB",
+    UN: "{{user.name}}",
+  });
+  if (!out.ok) {
+    res.status(500).json(out.error);
+    return;
+  }
+  res.json(out.data);
 });
 
 app.use("/", router);

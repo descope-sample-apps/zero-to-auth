@@ -7,6 +7,12 @@ import PriorityDeals from "./component/PriorityDeals";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import { API_ROUTES } from "../constants/constants";
+import {
+  getRefreshToken,
+  getSessionToken,
+  useDescope,
+  useSession,
+} from "@descope/react-sdk";
 
 const Dashboard = () => {
   const [priorityData, setPriorityData] = useState();
@@ -16,6 +22,9 @@ const Dashboard = () => {
   const [selectedOption, setSelectedOption] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
+  const sdk = useDescope();
+  const { sessionToken } = useSession();
+
   const openNotificationWithIcon = useCallback(
     (type, message) => {
       api[type]({
@@ -30,7 +39,10 @@ const Dashboard = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(`${API_ROUTES.BASE_URL}/${url}`, {
-          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionToken}`, // can use getSessionToken() to get session token as well
+          },
         });
         const { status, data } = response;
         if (status === 200) {
@@ -60,7 +72,7 @@ const Dashboard = () => {
         setIsLoading(false);
       }
     },
-    [openNotificationWithIcon]
+    [openNotificationWithIcon, sessionToken]
   );
 
   const onChange = (e) => {
@@ -68,9 +80,40 @@ const Dashboard = () => {
     setSelectedOption(e);
   };
 
+  const updateJwt = useCallback(async () => {
+    const refreshToken = getRefreshToken();
+    try {
+      const response = await axios.post(
+        `${API_ROUTES.BASE_URL}/update_jwt`,
+        {
+          refreshToken,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionToken}`, // can use getSessionToken() to get session token as well
+          },
+        }
+      );
+      const { status, data } = response;
+      if (status === 200) {
+        console.log("@@@ update jwt res", data);
+        const { jwt } = data;
+        localStorage.setItem("DSR", jwt);
+        openNotificationWithIcon("success", "JWT Updated");
+        const res = await sdk.refresh();
+        console.log("@@@ refresh res", res);
+      } else {
+        openNotificationWithIcon("error", "JWT Update Failed");
+      }
+    } catch (err) {
+      openNotificationWithIcon("error", "JWT Update Failed");
+    }
+  }, [sdk, sessionToken]);
   return (
     <div className="dashboard_wrapper">
       {contextHolder}
+      <button onClick={updateJwt}> Update JWT</button>
       <Select
         placeholder="Select ..."
         optionFilterProp="children"
