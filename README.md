@@ -16,4 +16,4 @@ After the first-time configuration, you can
 2. Start the zero-to-auth (root level) - `npm run dev`
 
 The client is now running on `http://localhost:3000`
-And The Server is now running on port 8080
+And The Server is now running on port 8082

@@ -5,7 +5,7 @@ import React from "react";
 const App = () => {
   return (
     <AuthProvider
-      projectId="P2O9zUpunOAGLdVHie8He79diqHU"
+      projectId="P2My9KRakUMj40L8KOBjAJLVWhWC"
       sessionTokenViaCookie
     >
       <div className="App">

@@ -1,12 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
 import productData from "./data/productData.ts";
 import priorityData from "./data/priorityData.ts";
-import barChart from "./data/barChart.ts";
+import barChart from "./data/barchart.ts";
 import pieChart from "./data/pieChart.ts";
 import cors from "cors";
 import dotenv from "dotenv";
 import DescopeClient from "@descope/node-sdk";
-import { parseCookies, setAuthCookies } from "./authHelpers.ts";
+import { getSessionToken } from "./authHelpers.ts";
 import { RequestContext } from "./types.ts";
 
 dotenv.config();
@@ -27,7 +27,9 @@ if (!process.env.DESCOPE_PROJECT_ID) {
 
 const clientAuth = {
   auth: DescopeClient({
-    projectId: process.env.DESCOPE_PROJECT_ID || "P2O9zUpunOAGLdVHie8He79diqHU",
+    projectId: process.env.DESCOPE_PROJECT_ID || "P2My9KRakUMj40L8KOBjAJLVWhWC",
+    managementKey:
+      "K2acseBkYJ7v6VlFtG7AKLb9LSpLwdlntVNQaA5PLYkjwue1pbsRCMwe3cBj6y3VBVl8CsL",
   }),
 };
 
@@ -40,7 +42,7 @@ app.use(
 );
 app.use(express.json());
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8082;
 
 // *** Protected Methods *** //
 
@@ -49,12 +51,12 @@ const authMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  const cookies = parseCookies(req);
-  const sessionToken = cookies[DescopeClient.SessionTokenCookieName];
+  const sessionToken = getSessionToken(req);
   try {
     // validate session
     await clientAuth.auth.validateSession(sessionToken);
   } catch (e) {
+    console.log("@@@ oops", e);
     res.status(401).json({
       error: new Error("Unauthorized"),
     });
@@ -68,6 +70,23 @@ const authMiddleware = async (
 const router = express.Router();
 router.use(authMiddleware);
 
+router.post("/authorize_user", async (req: Request, res: Response) => {
+  const { email } = req.query as { email: string };
+  console.log("@@@ email", email);
+  await clientAuth.auth.management.user.updateCustomAttribute(
+    email,
+    "publicUserId",
+    "abcd1234"
+  );
+  await clientAuth.auth.management.user.updateCustomAttribute(
+    email,
+    "publicTenantId",
+    "xyz9876"
+  );
+
+  // return 200
+  res.status(200).send();
+});
 router.get("/product_data", (_, res: Response) => {
   res.send(productData);
 });

@@ -36,7 +36,7 @@ export const setAuthCookies = <T extends ResponseData>(
   res.set("Set-Cookie", setCookies);
 };
 
-export const parseCookies = (request: Request) => {
+const parseCookies = (request: Request) => {
   const list: { [key: string]: string } = {};
   const cookieHeader = request.headers?.cookie;
   if (!cookieHeader) return list;
@@ -51,4 +51,19 @@ export const parseCookies = (request: Request) => {
   });
 
   return list;
+};
+
+export const getSessionToken = (req: Request) => {
+  // get session token from authorization header
+  const authorizationHeader = req.headers?.authorization;
+  if (authorizationHeader) {
+    const [type, token] = authorizationHeader.split(" ");
+    if (type === "Bearer") {
+      return token;
+    }
+  }
+  // Get session token from cookies
+  const cookies = parseCookies(req);
+  const sessionToken = cookies[DescopeClient.SessionTokenCookieName];
+  return sessionToken;
 };

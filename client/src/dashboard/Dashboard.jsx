@@ -7,12 +7,15 @@ import PriorityDeals from "./component/PriorityDeals";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import { API_ROUTES } from "../constants/constants";
+import { useUser, useSession } from "@descope/react-sdk";
 
 const Dashboard = () => {
   const [priorityData, setPriorityData] = useState();
   const [revenueProductData, setRevenueProductData] = useState();
   const [barData, setBarData] = useState();
   const [pieData, setPieData] = useState();
+  const { isAuthenticated } = useSession();
+  const { user } = useUser();
   const [selectedOption, setSelectedOption] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
@@ -71,6 +74,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard_wrapper">
       {contextHolder}
+      {isAuthenticated && <h1>User {JSON.stringify(user, null, 2)}</h1>}
       <Select
         placeholder="Select ..."
         optionFilterProp="children"

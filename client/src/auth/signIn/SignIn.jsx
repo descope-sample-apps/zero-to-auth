@@ -3,14 +3,36 @@ import { Col, Row } from "antd";
 import app_login from "../../assets/app_login.svg";
 import { useNavigate } from "react-router-dom";
 import "./sign.scss";
-import { Descope } from "@descope/react-sdk";
+import { Descope, useDescope } from "@descope/react-sdk";
+import { API_ROUTES } from "../../constants/constants";
+import axios from "axios";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const sdk = useDescope();
 
-  const onSuccess = useCallback(() => {
-    navigate("/");
-  }, [navigate]);
+  const onSuccess = useCallback(
+    async (e) => {
+      // await
+
+      await axios.post(
+        `${API_ROUTES.BASE_URL}/authorize_user?email=${e.detail?.user?.email}`,
+        {
+          withCredentials: true,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${e.detail?.sessionJwt}`,
+          },
+        }
+      );
+      await sdk.refresh();
+      await sdk.me();
+      navigate("/");
+    },
+    [navigate, sdk]
+  );
 
   return (
     <div style={{ height: "99vh" }}>
