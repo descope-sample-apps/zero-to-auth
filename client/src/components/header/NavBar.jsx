@@ -7,17 +7,18 @@ import {
   Row,
   Typography,
 } from "antd";
-import axios from "axios";
 import { UserOutlined } from "@ant-design/icons";
 import "./navbar.scss";
 import { Link, useNavigate } from "react-router-dom";
-import { API_ROUTES } from "../../constants/constants";
 import { useCallback } from "react";
-import { useDescope } from "@descope/react-sdk";
+import { useDescope, useSession, useUser } from "@descope/react-sdk";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const { logout } = useDescope();
+  const { isAuthenticated } = useSession();
+  const { user } = useUser();
+
   const logoutUser = useCallback(async () => {
     try {
       await logout();
@@ -27,13 +28,34 @@ const NavBar = () => {
     navigate("/sign-in");
   }, [navigate]);
 
+  const signIn = useCallback(async () => {
+    navigate("/sign-in");
+  }, [navigate]);
+
   const content = (
     <div>
-      <Typography.Title level={5}>✨ Hey There</Typography.Title>
-      <Divider />
-      <p style={{ color: "red", cursor: "pointer" }} onClick={logoutUser}>
-        Log out
-      </p>
+      {isAuthenticated && user && (
+        <>
+          <Typography.Title level={5}>
+            Hey There {user?.firstName} {user?.lastName} 👋 {user.email}
+          </Typography.Title>
+          <Divider />
+          <p style={{ color: "red", cursor: "pointer" }} onClick={logoutUser}>
+            Log out
+          </p>
+        </>
+      )}
+      {!isAuthenticated && (
+        <>
+          <Typography.Title level={5}>
+            Please Login to continue
+          </Typography.Title>
+          <Divider />
+          <p style={{ color: "", cursor: "pointer" }} onClick={signIn}>
+            Log in
+          </p>
+        </>
+      )}
     </div>
   );
 

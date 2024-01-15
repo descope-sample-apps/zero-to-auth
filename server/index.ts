@@ -27,7 +27,7 @@ if (!process.env.DESCOPE_PROJECT_ID) {
 
 const clientAuth = {
   auth: DescopeClient({
-    projectId: process.env.DESCOPE_PROJECT_ID || "P2My9KRakUMj40L8KOBjAJLVWhWC",
+    projectId: process.env.DESCOPE_PROJECT_ID || "P2WW9HM7L4dT7vN6WWTi5toT8SEr",
     managementKey:
       "K2acseBkYJ7v6VlFtG7AKLb9LSpLwdlntVNQaA5PLYkjwue1pbsRCMwe3cBj6y3VBVl8CsL",
   }),
