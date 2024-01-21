@@ -26,7 +26,7 @@ const Login = () => {
             }}
           >
             {/* Login component */}
-            <Descope flowId="sign-up-or-in" onSuccess={onSuccess} />
+            <Descope flowId="sso-login" onSuccess={onSuccess} />
           </div>
         </Col>
         <Col
