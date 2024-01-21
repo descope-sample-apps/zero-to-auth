@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@descope/node-sdk": "^1.6.2",
+    "@descope/node-sdk": "^1.5.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
