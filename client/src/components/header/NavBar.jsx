@@ -81,7 +81,7 @@ const NavBar = () => {
                                   type="text"
                                   onClick={handleSamlSettingsClick}
                                 >
-                                  SAML Settings
+                                  SSO Settings
                                 </Button>
                               )}
                             </div>
