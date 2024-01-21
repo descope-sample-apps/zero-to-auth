@@ -21,8 +21,8 @@ const Login = () => {
             className="wrapper"
             style={{
               paddingTop: "12em",
-              paddingRight: "15em",
-              paddingLeft: "15em",
+              paddingRight: "20em",
+              paddingLeft: "20em",
             }}
           >
             {/* Login component */}

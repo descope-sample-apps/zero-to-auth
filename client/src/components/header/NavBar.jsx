@@ -55,7 +55,7 @@ const NavBar = () => {
             </div>
           </Col>
           <Col span={2}>
-            {!isSessionLoading && (
+            {(!isSessionLoading || isAuthenticated) && (
               <>
                 {isAuthenticated && !isUserLoading && (
                   <p className="user-name">Hello, {user?.name}</p>
