@@ -58,7 +58,7 @@ const NavBar = () => {
             {!isSessionLoading && (
               <>
                 {isAuthenticated && !isUserLoading && (
-                  <p className="user-name">Hello, {user.name}</p>
+                  <p className="user-name">Hello, {user?.name}</p>
                 )}
                 <div className="search-section">
                   {isAuthenticated ? (
