@@ -1,7 +1,7 @@
 import express, { Response } from "express";
 import productData from "./data/productData.ts";
 import priorityData from "./data/priorityData.ts";
-import barChart from "./data/barChart1.ts";
+import barChart from "./data/barChart.ts";
 import pieChart from "./data/pieChart.ts";
 import cors from "cors";
 import dotenv from "dotenv";
