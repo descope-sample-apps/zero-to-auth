@@ -1,7 +1,7 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, { Response } from "express";
 import productData from "./data/productData.ts";
 import priorityData from "./data/priorityData.ts";
-import barChart from "./data/barChart.ts";
+import barChart from "./data/barChart1.ts";
 import pieChart from "./data/pieChart.ts";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -13,7 +13,7 @@ app.use(
   cors({
     credentials: true,
     origin: "http://localhost:3000",
-  })
+  }),
 );
 app.use(express.json());
 
