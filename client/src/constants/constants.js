@@ -199,7 +199,8 @@ export const BAR_CHART_OPTIONS = {
   },
 };
 
-const BASE_URL = "http://localhost:4000";
+const port = process.env.REACT_APP_SERVER_PORT || 4000;
+const BASE_URL = `http://localhost:${port}`;
 
 export const API_ROUTES = {
   BASE_URL,
