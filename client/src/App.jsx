@@ -5,7 +5,7 @@ import React from "react";
 const App = () => {
   return (
     <AuthProvider
-      projectId="P2WW9HM7L4dT7vN6WWTi5toT8SEr"
+      projectId={process.env.REACT_APP_DESCOPE_PROJECT_ID}
       sessionTokenViaCookie
     >
       <div className="App">

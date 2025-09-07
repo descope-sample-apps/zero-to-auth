@@ -16,13 +16,13 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "dotenv-cli": "^10.0.0",
     "react-scripts": "5.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "dotenv -e ../.env -- react-scripts start",
+    "build": "dotenv -e ../.env -- react-scripts build",
+    "test": "dotenv -e ../.env -- react-scripts test"
   },
   "eslintConfig": {
     "extends": [

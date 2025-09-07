@@ -2,12 +2,11 @@
   "name": "backend_api",
   "version": "1.0.0",
   "description": "Zero To Auth using Descope",
-  "main": "index.ts",
   "type": "module",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:no-watch": "ts-node --esm ./index.ts",
-    "start": "nodemon --watch . --exec ts-node --esm ./index.ts"
+    "start:no-watch": "node --loader ts-node/esm ./index.ts",
+    "start": "nodemon --watch . --exec node -- --loader ts-node/esm ./index.ts"
   },
   "author": "",
   "license": "ISC",

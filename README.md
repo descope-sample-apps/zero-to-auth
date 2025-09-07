@@ -12,6 +12,7 @@ After the first-time configuration, you can
 
 ### Quick Start
 
+0. Copy `.env.example` to `.env` and fill in your Descope Project ID
 1. Install dependencies (root level)- `npm install`
 2. Start the zero-to-auth (root level) - `npm run dev`
 

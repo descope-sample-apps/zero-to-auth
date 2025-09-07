@@ -1,15 +1,14 @@
 import express, { NextFunction, Request, Response } from "express";
-import productData from "./data/productData.ts";
-import priorityData from "./data/priorityData.ts";
-import barChart from "./data/barchart.ts";
-import pieChart from "./data/pieChart.ts";
+import productData from "./data/productData.js";
+import priorityData from "./data/priorityData.js";
+import barChart from "./data/barchart.js";
+import pieChart from "./data/piechart.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import DescopeClient from "@descope/node-sdk";
-import { getSessionToken } from "./authHelpers.ts";
-import { RequestContext } from "./types.ts";
-
-dotenv.config();
+import { getSessionToken } from "./authHelpers.js";
+import { RequestContext } from "./types.js";
+dotenv.config({ path: "../.env" });
 
 declare global {
   namespace Express {
@@ -19,15 +18,17 @@ declare global {
   }
 }
 
-if (!process.env.DESCOPE_PROJECT_ID) {
-  console.warn(
-    `Please set DESCOPE_PROJECT_ID in your environment variables, falling back to author's project id.`
+if (!process.env.REACT_APP_DESCOPE_PROJECT_ID) {
+  console.error(
+    `Please set REACT_APP_DESCOPE_PROJECT_ID in your environment variables, falling back to author's project id.`
   );
+  // exit
+  process.exit(1);
 }
 
 const clientAuth = {
   auth: DescopeClient({
-    projectId: process.env.DESCOPE_PROJECT_ID || "P2WW9HM7L4dT7vN6WWTi5toT8SEr",
+    projectId: process.env.REACT_APP_DESCOPE_PROJECT_ID!,
     managementKey:
       "K2acseBkYJ7v6VlFtG7AKLb9LSpLwdlntVNQaA5PLYkjwue1pbsRCMwe3cBj6y3VBVl8CsL",
   }),

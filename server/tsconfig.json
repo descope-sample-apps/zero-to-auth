@@ -1,18 +1,15 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
-    "allowJs": true,
-    "target": "es6",
-    "module": "es6",
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
     "rootDir": ".",
+    "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "Node",
-    "noEmitOnError": true,
-    "noEmit" :true,
-    "allowImportingTsExtensions": true
+    "noEmit": true
   },
   "include": ["./*.ts", "./**/*.ts"]
 }
